@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
+ruby "1.9.3"
 
 gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 
 # Gems used only for assets and not required
@@ -23,7 +24,7 @@ end
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -36,3 +37,15 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem 'quiet_assets', :group => :development
+
+gem 'thin'
+
+gem 'curb'
+
+gem 'enumerize'
+
+gem 'activerecord-import'
+
+gem 'time_difference'
