@@ -1,5 +1,11 @@
 Tcruby::Application.routes.draw do
+  resources :sessions
+  get "logout" => "sessions#destroy", :as => "logout"
+  get "login" => "sessions#new", :as => "login"
+  root :to => 'sessions#new'
+
   resources :users
+  get 'dashboard' => 'users#dashboard'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

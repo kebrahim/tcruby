@@ -1,0 +1,40 @@
+
+<%= navigationBar(nil) %>
+
+<div class="row-fluid headrow">
+  <div class="span12 center" id="loginbox">
+    <% if !notice.nil? && !notice.empty? %>
+      <br/>
+      <% if notice.starts_with?("Error:") %>
+        <div class='alert alert-error'>
+      <% else %>
+        <div class='alert alert-success'>
+      <% end %>
+       	  <strong><%= notice %></strong>
+        </div>
+    <% else %>
+      <br/>
+    <% end %>
+
+  	<div class='welcome pull-left'>
+      <h4>Welcome to Top Chef Rotiss!</h4>
+      <img class='img_250_100' src='/assets/logo.png'/><br/><br/>
+    </div>
+    <form class="form-signin pull-right" action="/sessions" method="post">
+      <h4 class="form-signin-heading">Please sign in</h4>
+      <input type="email" id="email" name="email" class="input-block-level"
+             placeholder="Email" required="" tabindex="1" autofocus="autofocus">
+      <input type="password" id="password" name="password" class="input-block-level"
+             placeholder="Password" required="" tabindex="2">
+      <button class="btn btn-primary" type="submit" name="commit" tabindex="4">Sign in</button>
+      <label class="checkbox pull-right">
+        <input type="checkbox" id="remember_me" name="remember_me" value="remember-me"
+               tabindex="3">Remember me
+      </label>
+      <br/><br/>
+      <%=
+        # link_to "Forgot your password?", new_password_reset_path, class: 'btn-link-blue'
+       %>
+    </form>
+  </div>
+</div>

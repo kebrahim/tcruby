@@ -2,6 +2,15 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    @user = current_user
+    if @user.nil?
+      redirect_to root_url
+      return
+    elsif @user.is_admin == false
+      redirect_to dashboard_url
+      return
+    end
+
     @users = User.all
 
     respond_to do |format|
@@ -78,6 +87,16 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /dashboard
+  def dashboard
+    @user = current_user
+    if !@user.nil?
+      # get_dashboard_data(@user)
+    else
+      redirect_to root_url
     end
   end
 end

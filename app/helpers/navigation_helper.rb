@@ -1,55 +1,16 @@
 # Navigation bar helper
 module NavigationHelper
   DASHBOARD_BUTTON = "DASHBOARD_BUTTON"
-  MY_ENTRIES_BUTTON = "MY_ENTRIES_BUTTON"
-  
-  # Game buttons
-  SURVIVOR_GAME_BUTTON = "SURVIVOR_GAME_BUTTON"
-  ANTI_GAME_BUTTON = "ANTI_GAME_BUTTON"
-  HIGH_ROLLER_GAME_BUTTON = "HIGH_ROLLER_GAME_BUTTON"
-  SECOND_CHANCE_GAME_BUTTON = "SECOND_CHANCE_GAME_BUTTON"
-
-  # Weekly breakdown buttons
-  SURVIVOR_WEEKLY_BUTTON = "SURVIVOR_WEEKLY_BUTTON"
-  ANTI_WEEKLY_BUTTON = "ANTI_WEEKLY_BUTTON"
-  HIGH_ROLLER_WEEKLY_BUTTON = "HIGH_ROLLER_WEEKLY_BUTTON"
-  SECOND_CHANCE_WEEKLY_BUTTON = "SECOND_CHANCE_WEEKLY_BUTTON"
-
-  # Rules buttons
-  SURVIVOR_RULES_BUTTON = "SURVIVOR_RULES_BUTTON"
-  ANTI_RULES_BUTTON = "ANTI_RULES_BUTTON"
-  HIGH_ROLLER_RULES_BUTTON = "HIGH_ROLLER_RULES_BUTTON"
-  SECOND_CHANCE_RULES_BUTTON = "SECOND_CHANCE_RULES_BUTTON"
+  SCOREBOARD_BUTTON = "SCOREBOARD_BUTTON"
+  MY_TEAM_BUTTON = "MY_TEAM_BUTTON"
+  WEEKLY_PICKS_BUTTON = "WEEKLY_PICKS_BUTTON"
 
   # Admin buttons
   ADMIN_USERS_BUTTON = "ADMIN_USERS_BUTTON"
-  ADMIN_ENTRIES_BUTTON = "ADMIN_ENTRIES_BUTTON"
-  ADMIN_ALL_PICKS_BUTTON = "ADMIN_ALL_PICKS_BUTTON"
-  ADMIN_NFL_SCHEDULE_BUTTON = "ADMIN_NFL_SCHEDULE_BUTTON"
-  ADMIN_KILL_ENTRIES_BUTTON = "ADMIN_KILL_ENTRIES_BUTTON"
-
-  # Super-admin buttons
-  ADMIN_NFL_TEAMS_BUTTON = "ADMIN_NFL_TEAMS_BUTTON"
   ADMIN_SCORING_WEEKS_BUTTON = "ADMIN_SCORING_WEEKS_BUTTON"
 
   # User buttons
   EDIT_PROFILE_BUTTON = "EDIT_PROFILE_BUTTON"
-
-  GAME_BUTTON_MAP = { survivor: SURVIVOR_GAME_BUTTON,
-                      anti_survivor: ANTI_GAME_BUTTON, 
-                      high_roller: HIGH_ROLLER_GAME_BUTTON,
-                      second_chance: SECOND_CHANCE_GAME_BUTTON
-                    }
-  WEEKLY_BUTTON_MAP = { survivor: SURVIVOR_WEEKLY_BUTTON,
-                        anti_survivor: ANTI_WEEKLY_BUTTON, 
-                        high_roller: HIGH_ROLLER_WEEKLY_BUTTON,
-                        second_chance: SECOND_CHANCE_WEEKLY_BUTTON
-                      }
-  RULES_BUTTON_MAP = { survivor: SURVIVOR_RULES_BUTTON,
-                       anti_survivor: ANTI_RULES_BUTTON, 
-                       high_roller: HIGH_ROLLER_RULES_BUTTON,
-                       second_chance: SECOND_CHANCE_RULES_BUTTON
-                     }
 
   def navigationBar(selected_button)
     navbar = "<div class='navbar'><div class='navbar-inner'>"
@@ -59,29 +20,20 @@ module NavigationHelper
          <ul class='nav'>" <<
          vertical_divider <<
          button_link(DASHBOARD_BUTTON, "Dashboard", "/dashboard", selected_button) <<
-         button_link(MY_ENTRIES_BUTTON, "My Entries", "/my_entries", selected_button) <<
-         vertical_divider <<
-         game_dropdown(selected_button)
+         button_link(SCOREBOARD_BUTTON, "Scoreboard", "/scoreboard", selected_button) <<
+         button_link(MY_TEAM_BUTTON, "My Team", "/my_team", selected_button) <<
+         button_link(WEEKLY_PICKS_BUTTON, "Weekly Picks", "/picks", selected_button)
 
       # only show Admin dropdown for admin users
       if current_user.is_admin
         admin_buttons =
             [
              { btn: ADMIN_USERS_BUTTON, txt: "Users", lnk: "/users" },
-             { btn: ADMIN_ENTRIES_BUTTON, txt: "Entries", lnk: "/entries" },
-             { btn: ADMIN_ALL_PICKS_BUTTON, txt: "All Picks", lnk: "/picks" },
-             { type: "divider" },
-             { btn: ADMIN_NFL_SCHEDULE_BUTTON, txt: "NFL Schedule", lnk: "/nfl_schedule" },
-             { btn: ADMIN_KILL_ENTRIES_BUTTON, txt: "Kill Entries", lnk: "/kill_entries" },
-            ]
-        # only show super-admin options for super-admin users
-        if current_user.is_super_admin
-          admin_buttons <<
-             { type: "divider" } <<
-             { btn: ADMIN_NFL_TEAMS_BUTTON, txt: "NFL Teams", lnk: "/nfl_teams" } <<
              { btn: ADMIN_SCORING_WEEKS_BUTTON, txt: "Scoring Weeks", lnk: "/weeks" }
-        end
-        navbar << drop_down("Admin", selected_button, admin_buttons)
+            ]
+        navbar << 
+            vertical_divider <<
+            drop_down("Admin", selected_button, admin_buttons)
       end
 
       navbar <<
@@ -98,29 +50,6 @@ module NavigationHelper
     end
     navbar << "</div></div>"
     return navbar.html_safe
-  end
-
-  def game_dropdown(selected_button)
-    game_buttons = []
-    SurvivorEntry::GAME_TYPE_ARRAY.each {|game_type|
-      # hide second chance game from blacklisted user
-      if (game_type == :second_chance && current_user.is_blacklisted)
-        next
-      end
-
-      submenu_buttons = [
-        { btn: GAME_BUTTON_MAP[game_type], txt: "Entry Breakdown", lnk: "/" + game_type.to_s },
-        { btn: WEEKLY_BUTTON_MAP[game_type], txt: "Weekly Breakdown",
-          lnk: "/" + game_type.to_s + "/week" },
-        { btn: RULES_BUTTON_MAP[game_type], txt: "Rules", lnk: "/" + game_type.to_s + "/rules" }
-      ]
-      game_buttons << { btn: GAME_BUTTON_MAP[game_type],
-                        txt: SurvivorEntry.game_type_title(game_type),
-                        lnk: "#",
-                        sub: submenu_buttons
-                      }
-    }
-    return drop_down("Survivor Games", selected_button, game_buttons)
   end
 
   def get_buttons(button_maps)
