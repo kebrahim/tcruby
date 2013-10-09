@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tcruby</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title>Top Chef Rotiss</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= favicon_link_tag "favicon.ico" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
+	
+  <div id='wrap'>
+  	<div class='container'>
 
 <%= yield %>
+     
+    </div>
+    <div id="push"></div>
+  </div>
+  
+  <!-- footer -->
+  <div id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="span4 center muted credit" title='Released: ???-??-2013'>
+          Top Chef Rotiss 2.0
+        </div>
+        <div class="span4 center">
+          <img class='img_250_100' src='/assets/logo.png'/>
+        </div>
+        <div class="span4 center muted credit">
+          a <a href='http://www.zebrahim.com' target='_blank'>zebrahim</a> original
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

@@ -11,3 +11,357 @@
  *= require_self
  *= require_tree .
  */
+
+/* Navigation */
+.navbar {
+  margin-top: 10px;
+}
+
+/* Layout */
+html, body { 
+  height: 100%;
+}
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -120px;
+  /*background-image: url("/assets/sports.png");*/
+}
+
+.row-fluid [class*="span"] {
+    border: 1px dashed;
+    border-radius: 4px;
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 0 10px 0 10px;
+}
+
+.row-fluid [class*="survivorspan"] {
+    padding: 0 5px 0 5px;
+    border:none;
+}
+
+.row-fluid [class*="bigentryspan"] {
+}
+
+.row-fluid [class*="entriesspan"] {
+    padding: 0;
+    border: none;
+}
+
+.dashboardtable {
+    font-size: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Footer */
+#push, #footer {
+  height: 120px;
+}
+
+#footer {
+	background-color: #f5f5f5;
+}
+
+#footer [class*="span"] {
+	line-height: 120px;
+}
+
+/* Tables */
+table.center {margin-left:auto; margin-right:auto; text-align:center;}
+table.center th {text-align:center; vertical-align: middle !important;}
+table.center td {text-align:center; vertical-align: middle !important;}
+table.vertmiddle td {vertical-align:middle !important;}
+.vertmiddle input, select {
+	margin: 5px 0 5px;
+}
+table th {background-color: black; color:white;}
+.tdselect {
+	height: 32px;
+	line-height: 28px;
+}
+.tdselect select {
+	margin-bottom: 0px !important;
+}
+.tdselect input {
+  margin-bottom: 0px !important;
+}
+
+.table-dash-striped tbody > tr:nth-child(odd) > td,
+.table-dash-striped tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9 !important;
+}
+.table-dash-striped tbody > tr:nth-child(even) > td,
+.table-dash-striped tbody > tr:nth-child(even) > th {
+  background-color: white !important;
+}
+.table-dash-striped tbody > tr.green-row > td {
+  background-color:#DFF0D8 !important;
+}
+.table-dash-striped tbody > tr.red-row > td {
+  background-color:#F2DEDE !important;
+}
+
+.table-dashboard td, th {
+  border-left: thin solid black !important;
+  border-bottom: thin solid black !important;
+}
+.table-dashboard td:nth-child(2), th:nth-child(2) {
+  border-right: thin solid black !important;
+}
+
+.table-striped .my-row td {
+  background-color:#E3F2F9 !important;
+  font-weight: bold;
+}
+
+.table .green-row td {
+  background-color:#DFF0D8 !important;
+}
+.table td.green-cell {
+  background-color:#DFF0D8 !important;
+}
+
+.table .red-row td {
+  background-color:#F2DEDE !important;
+}
+.table td.red-cell {
+  background-color:#F2DEDE !important;
+}
+
+.table .dead-row td {
+  text-decoration:line-through;
+}
+.table td.dead-cell {
+  text-decoration:line-through;
+}
+
+.table .bold-row td {
+  font-weight: bold;
+}
+.table td.topborderme {
+  border-top: thin solid black;
+}
+.table td.leftborderme {
+  border-left: thin solid black;
+}
+.table td.rightborderme {
+  border-right: thin solid black;
+}
+.table th.topborderme {
+  border-top: thin solid white;
+}
+.table th.leftborderme {
+  border-left: thin solid white !important;
+}
+.table th.rightborderme {
+  border-right: thin solid white !important;
+}
+.table thead.rightborderme th:not(:last-child) {
+  border-right: thin solid white !important;
+}
+.smallfonttable td {
+  font-size: 11px;
+}
+
+.row-fluid [class*="span"] .dead {
+  background-color:#F2DEDE;
+}
+
+.row-fluid [class*="span"] .missing {
+  background-color: khaki;
+}
+
+/* Labels */
+label {
+  display: inline !important;
+  font-weight: bold !important;
+}
+
+/* Links */
+.btn-primary, .btn-danger, .btn-inverse, .btn-warning, .btn-success {color:white !important; }
+
+.nexttoh1 {
+  height:62px;
+  line-height:58px;
+}
+.nexttoh1 a {
+  font-size: 12px;
+}
+
+/* images */
+.img_100_50 {
+  width: 100px;
+  height: 50px;
+}
+.img_50_49{
+  width: 50px;
+  height: 49px;
+}
+.img_75_73 {
+  width: 75px;
+  height: 73px;
+}
+.img_60_109 {
+  width: 60px;
+  height: 109px;
+}
+.img_20_20 {
+  width: 20px;
+  height: 20px;
+}
+.img_250_100 {
+  width: 250px;
+  height: 100px;
+}
+
+
+/* login page */
+.welcome {
+    margin: 10px 0 0 70px;
+}
+
+.form-signin {
+    max-width: 300px;
+    padding: 19px 29px 19px;
+    margin: 0 10px 20px;
+    background-color: #fff;
+    border: 1px solid #1B75BB;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    text-align: left;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+}
+
+.form-signin label {
+  display: block !important;
+  font-weight: 200 !important;
+}
+
+#error_explanation {
+  margin: 0 auto;
+}
+
+.brandctr {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
+
+.alert-top-margin {
+  margin-top: 15px;
+}
+
+.alert-center {
+  text-align: center;
+}
+
+.input-tourney {
+  width: 125px;
+  font-size: 12px;
+}
+.input-entries {
+  width: 53px;
+  font-size: 10px;
+}
+
+.tourney {
+  font-size: 11px;
+  padding: 0 0 0 !important;
+}
+
+.tourney strong {
+  font-size: 80%;
+}
+.green {
+  color: green;
+  font-weight: bold;
+}
+.blue {
+  color: blue;
+  font-weight: bold;
+}
+.red {
+  color: red;
+  font-weight: bold;
+}
+p.matchup {
+  margin: 0 0 0 0;
+  font-size: 11px;
+}
+td > a, td > a#hover, h4 > a, h4 > a#hover, h5 > a, h5 > a#hover, p#links > a, p#links > a#hover {
+  color: black !important;
+  background-color: transparent !important;
+  text-decoration: underline !important;
+}
+th > a, td > a#hover {
+  color: white !important;
+  background-color: transparent !important;
+  text-decoration: underline !important;
+}
+.btn-link-black {
+  color: black !important;
+  text-decoration: underline !important;
+}
+.btn-link-blue {
+  color: blue !important;
+  text-decoration: underline !important;
+  background-color: transparent !important;
+}
+th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+th .asc {
+  background-image: url(/assets/up_arrow.gif);
+}
+th .desc { 
+  background-image: url(/assets/down_arrow.gif);
+}
+
+.chooser {
+  height: 44px;
+  line-height: 40px;
+}
+.chooser select {
+  margin: 0;
+}
+
+.finger {
+  margin-bottom: 10px;
+}
+
+.resetfield > .field_with_errors {
+  display: block;
+  padding: 0;
+  background-color: white;
+}
+
+.game_stats {
+  font-size: 9pt;
+  font-weight: bold;
+}
