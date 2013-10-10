@@ -4,6 +4,7 @@ module NavigationHelper
   SCOREBOARD_BUTTON = "SCOREBOARD_BUTTON"
   MY_TEAM_BUTTON = "MY_TEAM_BUTTON"
   WEEKLY_PICKS_BUTTON = "WEEKLY_PICKS_BUTTON"
+  CHEFS_BUTTON = "CHEFS_BUTTON"
 
   # Admin buttons
   ADMIN_USERS_BUTTON = "ADMIN_USERS_BUTTON"
@@ -19,10 +20,10 @@ module NavigationHelper
         "<div class='brand'>Top Chef Rotiss</div>
          <ul class='nav'>" <<
          vertical_divider <<
-         button_link(DASHBOARD_BUTTON, "Dashboard", "/dashboard", selected_button) <<
          button_link(SCOREBOARD_BUTTON, "Scoreboard", "/scoreboard", selected_button) <<
          button_link(MY_TEAM_BUTTON, "My Team", "/my_team", selected_button) <<
-         button_link(WEEKLY_PICKS_BUTTON, "Weekly Picks", "/picks", selected_button)
+         button_link(WEEKLY_PICKS_BUTTON, "Weekly Picks", "/picks", selected_button) <<
+         button_link(CHEFS_BUTTON, "The Chefs", "/chefs", selected_button)
 
       # only show Admin dropdown for admin users
       if current_user.is_admin

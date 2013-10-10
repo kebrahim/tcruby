@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
       user = User.find_by_auth_token(cookies[:auth_token])
     end
     if !user.nil?
-      redirect_to dashboard_url
+      redirect_to scoreboard_url
     end
   end
 
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       else
         cookies[:auth_token] = user.auth_token  
       end
-      redirect_to dashboard_url
+      redirect_to scoreboard_url
     else
       error_message = !user ? "Error: Invalid email or password" :
           "Error: Account not confirmed yet; please check your email!"

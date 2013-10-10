@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131007201133) do
+ActiveRecord::Schema.define(:version => 20131010210557) do
+
+  create_table "chefs", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "abbreviation"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "chefs", ["abbreviation"], :name => "chefs_abbr_uq", :unique => true
+  add_index "chefs", ["first_name", "last_name"], :name => "chefs_name_uq", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "first_name"

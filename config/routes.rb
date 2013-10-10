@@ -1,11 +1,16 @@
 Tcruby::Application.routes.draw do
+  # chefs
+  get "chefs" => "chefs#index"
+
+  # sessions
   resources :sessions
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   root :to => 'sessions#new'
 
+  # users
   resources :users
-  get 'dashboard' => 'users#dashboard'
+  get 'scoreboard' => 'users#scoreboard'
   get 'profile' => 'users#profile'
 
   # The priority is based upon order of creation:
