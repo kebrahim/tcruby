@@ -133,6 +133,18 @@ class UsersController < ApplicationController
     @user = @current_user
     if @user.nil?
       redirect_to root_url
+      return
     end
+  end
+
+  # GET /my_team
+  def my_team
+    @user = @current_user
+    if @user.nil?
+      redirect_to root_url
+      return
+    end
+
+    @chefs = @user.chefs
   end
 end

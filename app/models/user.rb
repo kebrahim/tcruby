@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   enumerize :role, in: [:demo, :user, :admin]
 
+  has_and_belongs_to_many :chefs
+
   attr_accessor :password
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }

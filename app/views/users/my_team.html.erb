@@ -1,0 +1,29 @@
+
+<%= navigationBar(NavigationHelper::MY_TEAM_BUTTON) %>
+
+<div class='row-fluid'>
+  <div class='span12 center'>
+
+    <h3>My Team</h3>
+
+    <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
+      <thead><tr>
+        <th colspan=2 class='rightborderme'>Chef</th>
+        <th class='rightborderme'>Drafted</th>
+        <th class='rightborderme'>Fantasy Points</th>
+        <th>Week Eliminated</th>
+      </tr></thead>
+
+    <% @chefs.each do |chef| %>
+      <tr>
+        <td>Pic</td>
+        <td><%= chef.full_name %></td>
+        <td>Draft</td>
+        <td>FPTS</td>
+        <td>Wk</td>
+      </tr>
+    <% end %>
+    </table>
+
+  </div>
+</div>

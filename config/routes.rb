@@ -11,6 +11,7 @@ Tcruby::Application.routes.draw do
   # users
   resources :users
   get 'scoreboard' => 'users#scoreboard'
+  get 'my_team' => 'users#my_team'
   get 'profile' => 'users#profile'
 
   # The priority is based upon order of creation:
