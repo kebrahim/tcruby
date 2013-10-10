@@ -1,7 +1,7 @@
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -11,35 +11,72 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
+  <div class="row-fluid">
+    <div class="span6">
+      <fieldset>
+        <legend>User Settings</legend>
+        <table class="table vertmiddle table-striped table-condensed table-bordered">
+          <tr>
+            <td><%= f.label :first_name %></td>
+            <td><%= f.text_field :first_name, :required => true %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :last_name %></td>
+            <td><%= f.text_field :last_name, :required => true %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :email %></td>
+            <td><%= f.email_field :email, :required => true %></td>
+          </tr>
+          <% if @current_user && @admin_function && @current_user.is_admin %>
+          <tr>
+            <td><%= f.label :role %></td>
+            <% if @admin_function && @current_user.is_admin %>
+              <td class='tdselect'>
+                <select name='user[role]'>
+                  <% User::ALL_ROLES_ARRAY.each { |role| %>
+                    <option value=<%= "'" + role.to_s + "'" %>
+                            <%= @user.role == role .to_s ? "selected" : "" %>>
+                      <%= role.to_s %>
+                    </option>
+                  <% } %>
+                </select>
+              </td>
+            <% else %>
+              <td><%= @user.role %></td>
+            <% end %>
+          </tr>
+          <% end %>
+        </table>
+      </fieldset>
+    </div>
+    <div class="span6">
+      <fieldset>
+        <legend>Password Settings</legend>
+      </fieldset>
+      <table class="table vertmiddle table-striped table-condensed table-bordered">
+        <tr>
+          <td><%= f.label :password %></td>
+          <td><%= f.password_field :password %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :password_confirmation %></td>
+          <td><%= f.password_field :password_confirmation %></td>
+        </tr>
+      </table>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password_hash %><br />
-    <%= f.text_field :password_hash %>
-  </div>
-  <div class="field">
-    <%= f.label :password_salt %><br />
-    <%= f.text_field :password_salt %>
-  </div>
-  <div class="field">
-    <%= f.label :auth_token %><br />
-    <%= f.text_field :auth_token %>
-  </div>
-  <div class="field">
-    <%= f.label :role %><br />
-    <%= f.text_field :role %>
-  </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-primary' %>&nbsp
+    <% if @current_user %>
+      <input class='btn' name='cancel' type='submit' value='Cancel' />
+    <% else %>
+      <a href='/' class='btn'>Cancel</a>
+    <% end %>
+    
+    <% if @admin_function == true %>
+      <input type=hidden name='admin_fxn' value='' />
+    <% end %>
   </div>
 <% end %>
