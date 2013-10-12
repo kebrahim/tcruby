@@ -1,0 +1,20 @@
+"Elimination Loser",0,E,Eliminated,1
+"Elimination Winner Individual",5,W,"Elim Win Ind",2
+"Elimination Top Individual",3,Ti,"Elim Top Ind",4
+"Elimination Bottom",0,Bi,"Elim Bot Ind",8
+"Quickfire Winner Individual",4,Qi,"QF Win Ind",10
+"Quickfire Top Individual",2,QTi,"QF Top Ind",12
+"Quickfire Bottom",0,QBi,"QF Bot Ind",16
+"Cut themselves",-3,C,Cut,18
+"Elimination Winner Team",3,Wt,"Elim Win Team",3
+"Elimination Middle Individual",1,Mi,"Elim Mid Ind",6
+"Quickfire Middle Individual",1,QMi,"QF Mid Ind",14
+"Quickfire Top Team",2,QTt,"QF Top Team",13
+"Quickfire Winner Team",3,Qt,"QF Win Team",11
+"Elimination Top Team",2,Tt,"Elim Top Team",5
+"Elimination Middle Team",1,Mt,"Elim Mid Team",7
+"Quickfire Middle Team",1,QMt,"QF Mid Team",15
+"Last Chance Kitchen Winner",1,L,"LCK Winner",19
+"Last Chance Kitchen Loser",0,X,"LCK Loser",20
+"Elimination Bottom Team",0,Bt,"Elim Bot Team",9
+"Quickfire Bottom Team",0,QBt,"QF Bot Team",17

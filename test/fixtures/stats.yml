@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  points: 1
+  abbreviation: MyString
+  short_name: MyString
+  ordinal: 1
+
+two:
+  name: MyString
+  points: 1
+  abbreviation: MyString
+  short_name: MyString
+  ordinal: 1

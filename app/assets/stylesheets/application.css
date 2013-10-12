@@ -16,6 +16,9 @@
 .navbar {
   margin-top: 10px;
 }
+.navbar ul {
+  font-size: 12px;
+}
 
 /* Layout */
 html, body { 

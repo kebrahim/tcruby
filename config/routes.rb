@@ -10,6 +10,7 @@ Tcruby::Application.routes.draw do
 
   # users
   resources :users
+  get 'dashboard' => 'users#dashboard'
   get 'scoreboard' => 'users#scoreboard'
   get 'my_team' => 'users#my_team'
   get 'profile' => 'users#profile'

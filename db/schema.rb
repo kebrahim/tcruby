@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131010231920) do
+ActiveRecord::Schema.define(:version => 20131012205535) do
 
   create_table "chefs", :force => true do |t|
     t.string   "first_name"
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(:version => 20131010231920) do
 
   add_index "draft_picks", ["chef_id"], :name => "index_draft_picks_on_chef_id"
   add_index "draft_picks", ["user_id"], :name => "index_draft_picks_on_user_id"
+
+  create_table "stats", :force => true do |t|
+    t.string   "name"
+    t.integer  "points"
+    t.string   "abbreviation"
+    t.string   "short_name"
+    t.integer  "ordinal"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first_name"

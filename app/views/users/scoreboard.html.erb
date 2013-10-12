@@ -2,6 +2,26 @@
 
 <div class='row-fluid'>
   <div class='span12 center'>
-    <h3><%= @user.first_name %>'s Dashboard</h3>
+    <h3>Scoreboard</h3>
+    <div class='row-fluid'>
+      <div class='span4 center'>
+        <h4>Scoring Legend</h4>
+        <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + " smallfonttable'" %>>
+          <thead><tr>
+            <th>Code</th>
+            <th>Scoring Metric</th>
+            <th>Points</th>
+          </tr></thead>
+          
+          <% @stats.each { |stat| %>
+            <tr>
+              <td><%= stat.abbreviation %></td>
+              <td><%= stat.name %></td>
+              <td><%= stat.points.to_s %></td>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

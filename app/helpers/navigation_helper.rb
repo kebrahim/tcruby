@@ -20,6 +20,7 @@ module NavigationHelper
         "<div class='brand'>Top Chef Rotiss</div>
          <ul class='nav'>" <<
          vertical_divider <<
+         button_link(DASHBOARD_BUTTON, "Dashboard", "/dashboard", selected_button) <<
          button_link(SCOREBOARD_BUTTON, "Scoreboard", "/scoreboard", selected_button) <<
          button_link(MY_TEAM_BUTTON, "My Team", "/my_team", selected_button) <<
          button_link(WEEKLY_PICKS_BUTTON, "Weekly Picks", "/picks", selected_button) <<

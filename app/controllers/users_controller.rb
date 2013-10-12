@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       redirect_to root_url
       return
     elsif @user.is_admin == false
-      redirect_to scoreboard_url
+      redirect_to dashboard_url
       return
     end
 
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       redirect_to root_url
       return
     elsif @current_user.is_admin == false
-      redirect_to scoreboard_url
+      redirect_to dashboard_url
       return
     end
 
@@ -116,14 +116,24 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /dashboard
+  def dashboard
+    @user = current_user
+    if @user.nil?
+      redirect_to root_url
+      return
+    end
+  end
+
   # GET /scoreboard
   def scoreboard
     @user = current_user
-    if !@user.nil?
-      # get_dashboard_data(@user)
-    else
+    if @user.nil?
       redirect_to root_url
+      return
     end
+
+    @stats = Stat.order(:ordinal)
   end
 
   # GET /profile
