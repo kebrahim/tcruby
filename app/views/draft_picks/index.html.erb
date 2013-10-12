@@ -1,0 +1,31 @@
+<h1>Listing draft_picks</h1>
+
+<table>
+  <tr>
+    <th>League</th>
+    <th>Round</th>
+    <th>Pick</th>
+    <th>User</th>
+    <th>Chef</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @draft_picks.each do |draft_pick| %>
+  <tr>
+    <td><%= draft_pick.league %></td>
+    <td><%= draft_pick.round %></td>
+    <td><%= draft_pick.pick %></td>
+    <td><%= draft_pick.user %></td>
+    <td><%= draft_pick.chef %></td>
+    <td><%= link_to 'Show', draft_pick %></td>
+    <td><%= link_to 'Edit', edit_draft_pick_path(draft_pick) %></td>
+    <td><%= link_to 'Destroy', draft_pick, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Draft pick', new_draft_pick_path %>

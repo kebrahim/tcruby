@@ -10,6 +10,7 @@ class ChefsController < ApplicationController
 
     # TODO add sorting
     @chefs = Chef.order(:last_name, :first_name)
+    @chef_id_to_picks_map = build_chef_id_to_picks_map(DraftPick.all)
 
     respond_to do |format|
       format.html # index.html.erb

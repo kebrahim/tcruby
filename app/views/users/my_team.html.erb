@@ -2,7 +2,7 @@
 <%= navigationBar(NavigationHelper::MY_TEAM_BUTTON) %>
 
 <div class='row-fluid'>
-  <div class='span12 center'>
+  <div class='span8 center'>
 
     <h3>My Team</h3>
 
@@ -18,7 +18,10 @@
       <tr>
         <td>Pic</td>
         <td><%= chef.full_name %></td>
-        <td>Draft</td>
+        <%
+          draft_pick = @chef_id_to_pick_map[chef.id]
+        %>
+        <td>Round: <%= draft_pick.round.to_s %>, Pick: <%= draft_pick.pick.to_s %></td>
         <td>FPTS</td>
         <td>Wk</td>
       </tr>
@@ -26,4 +29,10 @@
     </table>
 
   </div>
+
+  <div class='span4 center'>
+    <h3>Weekly Picks</h3>
+  </div>
+
 </div>
+

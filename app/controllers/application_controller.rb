@@ -14,4 +14,23 @@ class ApplicationController < ActionController::Base
   def logout_user
     cookies.delete(:auth_token)
   end
+
+  def build_chef_id_to_pick_map(picks)
+    chef_id_to_pick_map = {}
+    picks.each { |pick|
+      chef_id_to_pick_map[pick.chef_id] = pick
+    }
+    return chef_id_to_pick_map
+  end
+
+  def build_chef_id_to_picks_map(picks)
+    chef_id_to_pick_map = {}
+    picks.each { |pick|
+      if !chef_id_to_pick_map.has_key?(pick.chef_id)
+        chef_id_to_pick_map[pick.chef_id] = []    
+      end
+      chef_id_to_pick_map[pick.chef_id] << pick
+    }
+    return chef_id_to_pick_map
+  end
 end

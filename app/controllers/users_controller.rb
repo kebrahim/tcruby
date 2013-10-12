@@ -139,12 +139,15 @@ class UsersController < ApplicationController
 
   # GET /my_team
   def my_team
-    @user = @current_user
+    @user = current_user
     if @user.nil?
       redirect_to root_url
       return
     end
 
     @chefs = @user.chefs
+    @chef_id_to_pick_map = build_chef_id_to_pick_map(
+        DraftPick.where("chef_id in (?)", @chefs.collect{|chef| chef.id})
+                 .where(user_id: @user.id))
   end
 end
