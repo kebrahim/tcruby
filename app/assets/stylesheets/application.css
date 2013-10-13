@@ -147,6 +147,9 @@ table th {background-color: black; color:white;}
 .table .bold-row td {
   font-weight: bold;
 }
+.table tr.topborderme td {
+  border-top: thin solid black;
+}
 .table td.topborderme {
   border-top: thin solid black;
 }

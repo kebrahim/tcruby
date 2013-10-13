@@ -2,6 +2,8 @@ class Chef < ActiveRecord::Base
   attr_accessible :abbreviation, :first_name, :last_name
 
   has_and_belongs_to_many :users
+  has_many :chefstats, dependent: :destroy
+  has_many :stats, :through => :chefstats
 
   # Returns the full name of the chef
   def full_name

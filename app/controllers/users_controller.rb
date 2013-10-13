@@ -125,17 +125,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /scoreboard
-  def scoreboard
-    @user = current_user
-    if @user.nil?
-      redirect_to root_url
-      return
-    end
-
-    @stats = Stat.order(:ordinal)
-  end
-
   # GET /profile
   def profile
     @admin_function = false

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  chef: 
+  stat: 
+  week: 1
+
+two:
+  chef: 
+  stat: 
+  week: 1

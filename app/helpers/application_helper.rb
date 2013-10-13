@@ -2,6 +2,8 @@ module ApplicationHelper
 
   TABLE_CLASS = 'table table-striped table-bordered table-condensed center dashboardtable
                  vertmiddle'
+  TABLE_SMALL_CLASS = 'table table-striped table-bordered table-condensed center dashboardtable
+                 vertmiddle smallfonttable'
   TABLE_STRIPED_CLASS = 'table table-dash-striped table-bordered table-condensed center
                  dashboardtable vertmiddle'
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012205535) do
+ActiveRecord::Schema.define(:version => 20131012215611) do
 
   create_table "chefs", :force => true do |t|
     t.string   "first_name"
@@ -30,6 +30,18 @@ ActiveRecord::Schema.define(:version => 20131012205535) do
   end
 
   add_index "chefs_users", ["chef_id", "user_id"], :name => "index_chefs_users_on_chef_id_and_user_id", :unique => true
+
+  create_table "chefstats", :force => true do |t|
+    t.integer  "chef_id"
+    t.integer  "stat_id"
+    t.integer  "week"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "chefstats", ["chef_id"], :name => "index_chefstats_on_chef_id"
+  add_index "chefstats", ["stat_id", "chef_id", "week"], :name => "index_chefstats_on_stat_id_and_chef_id_and_week", :unique => true
+  add_index "chefstats", ["stat_id"], :name => "index_chefstats_on_stat_id"
 
   create_table "draft_picks", :force => true do |t|
     t.string   "league"
