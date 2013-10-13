@@ -21,6 +21,22 @@ class ApplicationController < ActionController::Base
     Time.zone = "Eastern Time (US & Canada)"
   end
 
+  # returns the current week number of all weeks
+  def current_week_number
+    return get_current_week_number_from_weeks(Week.order(:number))
+  end
+
+  # returns the current week number, from the specified array of weeks, based on the weeks' start times
+  def get_current_week_number_from_weeks(weeks)
+    now = DateTime.now
+    weeks.each { |week|
+      if now < week.start_time
+        return (week.number - 1)
+      end
+    }
+    return weeks.last.number
+  end
+
   def build_chef_id_to_pick_map(picks)
     chef_id_to_pick_map = {}
     picks.each { |pick|

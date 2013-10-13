@@ -8,6 +8,7 @@ module NavigationHelper
 
   # Admin buttons
   ADMIN_USERS_BUTTON = "ADMIN_USERS_BUTTON"
+  ADMIN_SCORING_BUTTON = "ADMIN_SCORING_BUTTON"
   ADMIN_SCORING_WEEKS_BUTTON = "ADMIN_SCORING_WEEKS_BUTTON"
 
   # User buttons
@@ -30,8 +31,9 @@ module NavigationHelper
       if current_user.is_admin
         admin_buttons =
             [
-             { btn: ADMIN_USERS_BUTTON, txt: "Users", lnk: "/users" },
-             { btn: ADMIN_SCORING_WEEKS_BUTTON, txt: "Scoring Weeks", lnk: "/weeks" }
+             { btn: ADMIN_USERS_BUTTON, txt: "Manage Users", lnk: "/users" },
+             { btn: ADMIN_SCORING_BUTTON, txt: "Manage Scores", lnk: "/scores" },
+             { btn: ADMIN_SCORING_WEEKS_BUTTON, txt: "Manage Weeks", lnk: "/weeks" }
             ]
         navbar << 
             vertical_divider <<

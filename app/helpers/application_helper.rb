@@ -59,4 +59,51 @@ module ApplicationHelper
     direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
     link_to title, {:sort => column, :direction => direction}, {:class => css_class}
   end
+
+  # returns a select tag, allowing user to choose from a list of weeks, from 1 to the specified
+  # current week, marking the specified selected week as selected
+  def display_week_chooser(current_week, selected_week)
+    week_chooser_html = "<label>Select week:</label>&nbsp&nbsp
+                         <select class='input-large' id='week_chooser'>"
+    1.upto(current_week) { |week|
+      week_chooser_html << "<option value=" + week.to_s
+      week_chooser_html << " selected" if week == selected_week
+      week_chooser_html << ">Week " + week.to_s + "</option>"
+    }
+    week_chooser_html << "</select>"
+    return week_chooser_html.html_safe
+  end
+
+  def stat_chef_selector(label_name, stat_abbr, chefs, selected_chef_id=nil)
+    chef_chooser_html = "<label for='" + stat_abbr + "'>" + label_name + ":</label>&nbsp&nbsp
+                         <select class='input-large' id='" + stat_abbr + "'
+                                 name='" + stat_abbr + "'>"
+    # no chef selected
+    chef_chooser_html << "<option value=0"
+    chef_chooser_html << " selected" if selected_chef_id.nil?
+    chef_chooser_html << ">-- None --</option>"
+
+    # chefs
+    chefs.each { |chef|
+      chef_chooser_html << "<option value=" + chef.id.to_s
+      chef_chooser_html << " selected" if chef.id == selected_chef_id
+      chef_chooser_html << ">" + chef.first_name + "</option>"
+    }
+    chef_chooser_html << "</select>"
+    return chef_chooser_html.html_safe    
+  end
+
+  def stat_chef_multi_selector(label_name, stat_abbr, chefs)
+    chef_chooser_html = "<label for='" + stat_abbr + "'>" + label_name + ":</label>&nbsp&nbsp
+                         <select multiple='multiple' class='multiselect input-large' id='" + stat_abbr + "'
+                                 name='" + stat_abbr + "'>"
+    # chefs
+    chefs.each { |chef|
+      chef_chooser_html << "<option value=" + chef.id.to_s
+      #chef_chooser_html << " selected" if chef.id == selected_chef_id
+      chef_chooser_html << ">" + chef.first_name + "</option>"
+    }
+    chef_chooser_html << "</select>"
+    return chef_chooser_html.html_safe    
+  end
 end

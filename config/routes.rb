@@ -6,6 +6,8 @@ Tcruby::Application.routes.draw do
   # stats
   get "scoreboard" => 'stats#scoreboard'
   get "scores" => 'stats#scores'
+  get "scores/week/:number" => 'stats#scores_week'
+  get "ajax/scores/week/:number" => 'stats#ajax_scores_week'
 
   # chefs
   get "chefs" => "chefs#index"

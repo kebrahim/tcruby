@@ -41,8 +41,7 @@ html, body {
     padding: 0 10px 0 10px;
 }
 
-.row-fluid [class*="survivorspan"] {
-    padding: 0 5px 0 5px;
+.row-fluid [class*="noborderspan"] {
     border:none;
 }
 
@@ -371,4 +370,8 @@ th .desc {
 .game_stats {
   font-size: 9pt;
   font-weight: bold;
+}
+
+.btn-group {
+  margin-bottom: 10px;
 }
