@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   helper :all
   protect_from_forgery
   helper_method :current_user
+  before_filter :set_time_zone
 
   private
 
@@ -13,6 +14,11 @@ class ApplicationController < ActionController::Base
   # logs the current user out of the system
   def logout_user
     cookies.delete(:auth_token)
+  end
+
+  # sets the time zone to the time zone of the current user
+  def set_time_zone
+    Time.zone = "Eastern Time (US & Canada)"
   end
 
   def build_chef_id_to_pick_map(picks)

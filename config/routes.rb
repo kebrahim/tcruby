@@ -1,6 +1,11 @@
 Tcruby::Application.routes.draw do
+  # weeks
+  get "weeks" => 'weeks#index'
+  post "weeks" => 'weeks#update'
+
   # stats
   get "scoreboard" => 'stats#scoreboard'
+  get "scores" => 'stats#scores'
 
   # chefs
   get "chefs" => "chefs#index"

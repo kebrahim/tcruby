@@ -1,0 +1,32 @@
+<%= navigationBar(NavigationHelper::ADMIN_SCORING_WEEKS_BUTTON) %>
+
+<div class='row-fluid'>
+  <div class='span12 center'>
+    <h3>Manage Scoring Weeks</h3>
+    <%= show_notice_as_alert(notice) %>
+
+    <form action='/weeks' method='post'>
+      <table class=<%= "'" + ApplicationHelper::TABLE_SMALL_CLASS + "'" %>>
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Start time</th>
+          </tr>
+        </thead>
+      <% @weeks.each do |week| %>
+        <tr class='tdselect'>
+          <td><%= week.number %></td>
+          <td><input class='input-xlarge center' type='datetime'
+                     name=<%= "'weekstart" + week.number.to_s + "'" %> required 
+                     value=<%= "'" + week.start_time.utc.in_time_zone.strftime("%m/%d/%Y %I:%M %p %Z") + "'" %>>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+      <p class='center'>
+        <button class='btn btn-primary' name='save'>Update Weeks</button>
+        <button class='btn' name='cancel'>Cancel</button>
+      </p>
+    </form>
+  </div>
+</div>

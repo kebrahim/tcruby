@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012215611) do
+ActiveRecord::Schema.define(:version => 20131013145050) do
 
   create_table "chefs", :force => true do |t|
     t.string   "first_name"
@@ -77,5 +77,15 @@ ActiveRecord::Schema.define(:version => 20131012215611) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  create_table "weeks", :force => true do |t|
+    t.integer  "number"
+    t.datetime "start_time"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "weeks", ["number"], :name => "weeks_number_uq", :unique => true
+  add_index "weeks", ["start_time"], :name => "weeks_start_time_uq", :unique => true
 
 end
