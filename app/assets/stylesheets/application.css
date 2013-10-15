@@ -30,7 +30,7 @@ html, body {
   height: 100%;
   /* Negative indent footer by it's height */
   margin: 0 auto -120px;
-  background-image: url("/assets/large_leather.png");
+  background-image: url("/assets/cboard.jpg");
 }
 
 .row-fluid [class*="span"] {

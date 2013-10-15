@@ -3,31 +3,31 @@
 <div class='row-fluid'>
   <div class='span12 center'>
     <h3>Scoreboard</h3>
-    <div class='row-fluid'>
-      
-      <div class='span8 center'>
-        <h4>Scoring Breakdown</h4>
-        <%= score_breakdown_tables %>
-      </div>
+  </div>
+</div>
 
-      <div class='span4 center'>
-        <h4>Scoring Legend</h4>
-        <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + " smallfonttable'" %>>
-          <thead><tr>
-            <th>Code</th>
-            <th>Scoring Metric</th>
-            <th>Points</th>
-          </tr></thead>
-          
-          <% @stats.each { |stat| %>
-            <tr>
-              <td><%= stat.abbreviation %></td>
-              <td><%= stat.name %></td>
-              <td><%= stat.points.to_s %></td>
-            </tr>
-          <% } %>
-        </table>
-      </div>
-    </div>
+<div class='row-fluid'>
+  <div class='span8 center'>
+    <h4>Scoring Breakdown</h4>
+    <%= score_breakdown_tables %>
+  </div>
+
+  <div class='span4 center'>
+    <h4>Scoring Legend</h4>
+    <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + " smallfonttable'" %>>
+      <thead><tr>
+        <th>Code</th>
+        <th>Scoring Metric</th>
+        <th>Points</th>
+      </tr></thead>
+      
+      <% @stats.each { |stat| %>
+        <tr>
+          <td><%= stat.abbreviation %></td>
+          <td><%= stat.name %></td>
+          <td><%= stat.points.to_s %></td>
+        </tr>
+      <% } %>
+    </table>
   </div>
 </div>

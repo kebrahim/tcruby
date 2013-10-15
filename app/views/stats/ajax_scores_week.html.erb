@@ -1,4 +1,11 @@
 <h4>Week <%= @week.number %></h4>
+<form action=<%= "'/scores/week/" + @week.number.to_s + "'" %> method='post'>
+  <p class='center'>
+    <button class='btn btn-primary' name='updatescores'>Update Scores</button>&nbsp
+    <button class='btn btn-inverse' name='setpicks'>Set Week <%= @week.number + 1 %> Picks</button>&nbsp
+    <button class='btn' name='cancel'>Cancel</button>
+  </p>
+
 <div class='row-fluid'>
   <div class='span12 center'>
     <h5>Quickfire</h5>
@@ -54,9 +61,8 @@
     <h5>Miscellaneous</h5>
     <%= stat_chef_multi_selector("Cut themselves", "C", @chefs) %>
   </div>
-
-  <!-- TODO Buttons to save picks, lock week [sets pick order for next week], cancel -->
 </div>
+</form>
 
 <script type="text/javascript">
   $(document).ready(function() {

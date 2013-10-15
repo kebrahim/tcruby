@@ -74,33 +74,18 @@ module ApplicationHelper
     return week_chooser_html.html_safe
   end
 
-  def stat_chef_selector(label_name, stat_abbr, chefs, selected_chef_id=nil)
-    chef_chooser_html = "<label for='" + stat_abbr + "'>" + label_name + ":</label>&nbsp&nbsp
-                         <select class='input-large' id='" + stat_abbr + "'
-                                 name='" + stat_abbr + "'>"
-    # no chef selected
-    chef_chooser_html << "<option value=0"
-    chef_chooser_html << " selected" if selected_chef_id.nil?
-    chef_chooser_html << ">-- None --</option>"
-
-    # chefs
-    chefs.each { |chef|
-      chef_chooser_html << "<option value=" + chef.id.to_s
-      chef_chooser_html << " selected" if chef.id == selected_chef_id
-      chef_chooser_html << ">" + chef.first_name + "</option>"
-    }
-    chef_chooser_html << "</select>"
-    return chef_chooser_html.html_safe    
-  end
-
   def stat_chef_multi_selector(label_name, stat_abbr, chefs)
     chef_chooser_html = "<label for='" + stat_abbr + "'>" + label_name + ":</label>&nbsp&nbsp
-                         <select multiple='multiple' class='multiselect input-large' id='" + stat_abbr + "'
-                                 name='" + stat_abbr + "'>"
+                         <select multiple='multiple' class='multiselect input-large'
+                                 id='" + stat_abbr + "' name='" + stat_abbr + "[]'>"
     # chefs
     chefs.each { |chef|
       chef_chooser_html << "<option value=" + chef.id.to_s
-      #chef_chooser_html << " selected" if chef.id == selected_chef_id
+      stat = @stat_abbr_to_stat_map[stat_abbr]
+      if @chef_id_to_stat_id_map.has_key?(chef.id) &&
+         @chef_id_to_stat_id_map[chef.id].include?(stat.id)
+        chef_chooser_html << " selected"
+      end
       chef_chooser_html << ">" + chef.first_name + "</option>"
     }
     chef_chooser_html << "</select>"

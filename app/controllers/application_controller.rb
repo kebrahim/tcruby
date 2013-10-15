@@ -56,8 +56,8 @@ class ApplicationController < ActionController::Base
     return chef_id_to_pick_map
   end
 
-  # map of chef_id to a map of week number to an array of stats
-  def build_chef_id_to_stat_map(chefstats)
+  # map of chef_id to a map of week number to an array of stat ids
+  def build_chef_id_week_to_stat_ids_map(chefstats)
     chef_id_to_stat_map = {}
     chefstats.each { |chefstat|
       if !chef_id_to_stat_map.has_key?(chefstat.chef_id)
@@ -71,11 +71,52 @@ class ApplicationController < ActionController::Base
     return chef_id_to_stat_map
   end
 
+  # map of chef_id to an array of stat ids
+  def build_chef_id_to_stat_ids_map(chefstats)
+    chef_id_to_stat_map = {}
+    chefstats.each { |chefstat|
+      if !chef_id_to_stat_map.has_key?(chefstat.chef_id)
+        chef_id_to_stat_map[chefstat.chef_id] = []
+      end
+      chef_id_to_stat_map[chefstat.chef_id] << chefstat.stat_id
+    }
+    return chef_id_to_stat_map
+  end
+
+  # map of stat_id to an array of chef ids
+  def build_stat_id_to_chef_ids_map(chefstats)
+    stat_id_to_chef_map = {}
+    chefstats.each { |chefstat|
+      if !stat_id_to_chef_map.has_key?(chefstat.stat_id)
+        stat_id_to_chef_map[chefstat.stat_id] = []
+      end
+      stat_id_to_chef_map[chefstat.stat_id] << chefstat.chef_id
+    }
+    return stat_id_to_chef_map
+  end
+
+  # map of chefstat identifier to the corresponding chefstat
+  def build_chefstat_id_to_chefstat_map(chefstats)
+    chefstat_id_to_chefstat_map = {}
+    chefstats.each { |chefstat|
+      chefstat_id_to_chefstat_map[chefstat.my_identifier] = chefstat
+    }
+    return chefstat_id_to_chefstat_map
+  end
+
   def build_stat_id_to_stat_map(stats)
     stat_id_to_stat_map = {}
     stats.each { |stat|
       stat_id_to_stat_map[stat.id] = stat
     }
     return stat_id_to_stat_map
+  end
+
+  def build_stat_abbr_to_stat_map(stats)
+    stat_abbr_to_stat_map = {}
+    stats.each { |stat|
+      stat_abbr_to_stat_map[stat.abbreviation] = stat
+    }
+    return stat_abbr_to_stat_map
   end
 end

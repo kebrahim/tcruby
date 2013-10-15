@@ -24,10 +24,14 @@ module StatsHelper
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|
-          	stats = @chef_id_to_stat_id_map.has_key?(chef.id) ?
+          	stat_ids = @chef_id_to_stat_id_map.has_key?(chef.id) ?
           	    @chef_id_to_stat_id_map[chef.id][week] : nil
-          	stat_total_points = stat_total(stats)
-            score_html << "<td class='leftborderme'>" + (stats ? stats.join(",") : "") + "</td>
+          	stat_total_points = stat_total(stat_ids)
+            stat_names = stat_ids.nil? ? [] :
+                stat_ids.collect { |stat_id|
+                  @stat_id_to_stat_map[stat_id].abbreviation
+                }
+            score_html << "<td class='leftborderme'>" + stat_names.join(",") + "</td>
                            <td>" + stat_total_points.to_s + "</td>"
 
           	chef_points += stat_total_points
@@ -58,12 +62,12 @@ module StatsHelper
     return score_html.html_safe
   end
 
-  def stat_total(stats)
+  def stat_total(stat_ids)
     total = 0
-    return total if !stats
+    return total if stat_ids.nil?
 
-    stats.each { |stat|
-      total += stat.points
+    stat_ids.each { |stat_id|
+      total += @stat_id_to_stat_map[stat_id].points
     }
     return total
   end
