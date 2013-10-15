@@ -12,7 +12,7 @@ class StatsController < ApplicationController
     @max_week = Chefstat.maximum(:week)
 
     # TODO sort users by total points
-    @users = User.all
+    @users = User.includes(:chefs)
     @chef_id_to_stat_id_map = build_chef_id_week_to_stat_ids_map(Chefstat.all)
     @stat_id_to_stat_map = build_stat_id_to_stat_map(@stats)
   end

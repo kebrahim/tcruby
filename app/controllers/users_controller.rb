@@ -123,6 +123,21 @@ class UsersController < ApplicationController
       redirect_to root_url
       return
     end
+
+    # load data
+    users = User.includes(:chefs)
+    chefstats = Chefstat.all
+    stats = Stat.all
+    
+    # convert data to maps
+    chef_id_to_points_map =
+        build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))
+    eliminated_chef_ids =
+        build_stat_id_to_chef_ids_map(chefstats)[build_stat_abbr_to_stat_map(stats)["E"].id]
+
+    @user_id_to_points_chefs_map =
+        build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids)
+    @user_id_to_users_map = build_user_id_to_user_map(users)
   end
 
   # GET /profile
