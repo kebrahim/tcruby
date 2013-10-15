@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :chefs
   has_many :chefstats, :through => :chefs
+  has_many :picks
 
   attr_accessor :password
   before_save :encrypt_password

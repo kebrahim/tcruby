@@ -4,6 +4,7 @@ class Chef < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :chefstats, dependent: :destroy
   has_many :stats, :through => :chefstats
+  has_many :picks
 
   # Returns the full name of the chef
   def full_name
