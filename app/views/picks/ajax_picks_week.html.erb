@@ -1,0 +1,26 @@
+<h4>Week <%= @week.number %></h4>
+<form action=<%= "'/picks/week/" + @week.number.to_s + "'" %> method='post'>
+  <p class='center'>
+    <button class='btn btn-primary' name='updatepicks'>Update Picks</button>&nbsp
+    <button class='btn' name='cancel'>Cancel</button>
+  </p>
+  <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
+    <thead><tr>
+      <th>Pick</th>
+      <th>Team</th>
+      <th colspan=2>Chef</th>
+      <th>Win/Loss</th>
+      <th>Bonus Points</th>
+    </tr></thead>
+    <% @picks.each { |pick| %>
+      <tr>
+        <td><%= pick.number.to_s %></td>
+        <td><%= pick.user.full_name %></td>
+        <td>pic</td>
+        <td><%= pick.chef.full_name %></td>
+        <td><%= pick.my_record_string %></td>
+        <td><%= pick.points.to_s %></td>
+      </tr>
+    <% } %>
+  </table>
+</form>

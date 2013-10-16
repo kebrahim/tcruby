@@ -128,7 +128,11 @@ class UsersController < ApplicationController
     users = User.includes(:chefs)
     chefstats = Chefstat.all
     stats = Stat.all
-    
+    @current_week_number = current_week_number
+    @picks = Pick.includes(:chef, :user)
+                 .where(week: @current_week_number)
+                 .order(:number)
+
     # convert data to maps
     chef_id_to_points_map =
         build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))

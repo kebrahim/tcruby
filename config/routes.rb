@@ -1,14 +1,20 @@
 Tcruby::Application.routes.draw do
+  # picks
+  get "picks" => "picks#index"
+  get "picks/week/:number" => "picks#picks_week"
+  get "ajax/picks/week/:number" => "picks#ajax_picks_week"
+  post "picks/week/:number" => "picks#update_picks"
+
   # weeks
-  get "weeks" => 'weeks#index'
-  post "weeks" => 'weeks#update'
+  get "weeks" => "weeks#index"
+  post "weeks" => "weeks#update"
 
   # stats
-  get "scoreboard" => 'stats#scoreboard'
-  get "scores" => 'stats#scores'
-  get "scores/week/:number" => 'stats#scores_week'
-  get "ajax/scores/week/:number" => 'stats#ajax_scores_week'
-  post 'scores/week/:number' => 'stats#update_scores'
+  get "scoreboard" => "stats#scoreboard"
+  get "scores" => "stats#scores"
+  get "scores/week/:number" => "stats#scores_week"
+  get "ajax/scores/week/:number" => "stats#ajax_scores_week"
+  post "scores/week/:number" => "stats#update_scores"
 
   # chefs
   get "chefs" => "chefs#index"
@@ -17,13 +23,13 @@ Tcruby::Application.routes.draw do
   resources :sessions
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
-  root :to => 'sessions#new'
+  root :to => "sessions#new"
 
   # users
   resources :users
-  get 'dashboard' => 'users#dashboard'
-  get 'my_team' => 'users#my_team'
-  get 'profile' => 'users#profile'
+  get "dashboard" => "users#dashboard"
+  get "my_team" => "users#my_team"
+  get "profile" => "users#profile"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
