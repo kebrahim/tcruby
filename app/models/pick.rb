@@ -51,4 +51,12 @@ class Pick < ActiveRecord::Base
     }
     return nil
   end
+
+  def my_user_week_record_id
+    return Pick::user_week_record_id(self.user_id, self.week, self.record)
+  end
+
+  def self.user_week_record_id(user_id, week, record)
+    return user_id.to_s + ":" + week.to_s + ":" + record.to_s
+  end
 end

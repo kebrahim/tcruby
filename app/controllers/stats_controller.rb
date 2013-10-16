@@ -13,6 +13,7 @@ class StatsController < ApplicationController
     @max_week = Chefstat.maximum(:week)
     users = User.includes(:chefs)
     chefstats = Chefstat.all
+    picks = Pick.includes(:chef)
 
     # convert data to maps
     chef_id_to_points_map =
@@ -25,6 +26,8 @@ class StatsController < ApplicationController
 
     @chef_id_to_stat_id_map = build_chef_id_week_to_stat_ids_map(chefstats)
     @stat_id_to_stat_map = build_stat_id_to_stat_map(@stats)
+ 
+    @user_week_record_to_picks_map = build_user_week_record_to_pick_map(picks)
   end
 
   # GET /scores

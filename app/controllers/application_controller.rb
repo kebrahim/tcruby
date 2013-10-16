@@ -97,6 +97,7 @@ class ApplicationController < ActionController::Base
 
   # map of user id to map of total points scored by all the chefs and number of non-eliminated chefs
   # on that user's team
+  # TODO include weekly picks
   def build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids)
     user_id_to_points_chefs_map = {}
     users.each { |user|
@@ -111,6 +112,14 @@ class ApplicationController < ActionController::Base
       }
     }
     return user_id_to_points_chefs_map
+  end
+
+  def build_user_week_record_to_pick_map(picks)
+    user_week_record_to_picks_map = {}
+    picks.each { |pick|
+      user_week_record_to_picks_map[pick.my_user_week_record_id] = pick
+    }
+    return user_week_record_to_picks_map
   end
 
   # map of stat_id to an array of chef ids

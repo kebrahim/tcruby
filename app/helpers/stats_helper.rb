@@ -4,7 +4,7 @@ module StatsHelper
     score_html = ""
     @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points|
       user = @user_id_to_users_map[user_points[0]]
-      score_html << "<h5>" + user.full_name + "</h5>"
+      score_html << "<h5>" + user.full_name + " (" + user_points[1]["points"].to_s + ")</h5>"
       score_html << "<table class='" + ApplicationHelper::TABLE_SMALL_CLASS + "'>
                        <thead><tr>
                          <th colspan=2>Chef</th>"
@@ -47,7 +47,43 @@ module StatsHelper
                        </tr>"
       }
      
-      # TODO weekly picks
+      # weekly picks
+      score_html << "<tr class='topborderme'>
+                       <td colspan=2>Winning Chef Bonus</td>"
+      total_win_bonus_points = 0
+      if @max_week
+        1.upto(@max_week) { |week|
+          # show pick & points
+          pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :win)]
+          score_html << "<td class='leftborderme'>" + pick.chef.first_name + "</td>
+                         <td>" + pick.points.to_s + "</td>"
+
+          # update point totals
+          total_win_bonus_points += pick.points
+          weekly_points[week] += pick.points
+          total_points += pick.points
+        }
+      end
+      score_html << "  <td class='leftborderme'>" + total_win_bonus_points.to_s + "</td>
+                     </tr>
+                     <tr>
+                       <td colspan=2>Losing Chef Bonus</td>"
+      total_loss_bonus_points = 0
+      if @max_week
+        1.upto(@max_week) { |week|
+          # show pick & points
+          pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :loss)]
+          score_html << "<td class='leftborderme'>" + pick.chef.first_name + "</td>
+                         <td>" + pick.points.to_s + "</td>"
+
+          # update point totals
+          total_win_bonus_points += pick.points
+          weekly_points[week] += pick.points
+          total_points += pick.points
+        }
+      end
+      score_html << "  <td class='leftborderme'>" + total_win_bonus_points.to_s + "</td>
+                     </tr>"
 
       # totals
       score_html << "<tr class='topborderme'><td colspan=2>Total</td>"
