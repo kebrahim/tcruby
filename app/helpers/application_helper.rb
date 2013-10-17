@@ -74,6 +74,17 @@ module ApplicationHelper
     return week_chooser_html.html_safe
   end
 
+  def chef_selector(chefs)
+    chef_chooser_html = "<select class='input-large' name='chef_id'>
+                           <option value=0>-- Select Chef --</option>"
+    # chefs
+    chefs.each { |chef|
+      chef_chooser_html << "<option value=" + chef.id.to_s +  ">" + chef.full_name + "</option>"
+    }
+    chef_chooser_html << "</select>"
+    return chef_chooser_html.html_safe
+  end
+
   def stat_chef_multi_selector(label_name, stat_abbr, chefs)
     chef_chooser_html = "<label for='" + stat_abbr + "'>" + label_name + ":</label>&nbsp&nbsp
                          <select multiple='multiple' class='multiselect input-large'
@@ -90,5 +101,17 @@ module ApplicationHelper
     }
     chef_chooser_html << "</select>"
     return chef_chooser_html.html_safe    
+  end
+
+  def record_selector
+    record_chooser_html = "<select class='input-medium' name='record'>
+                           <option value=0>-- Select Result --</option>"
+    # records
+    [:win, :loss].each { |record|
+      record_chooser_html << "<option value=" + Pick::record_abbreviation(record) +  ">" + 
+          Pick::record_string(record) + "</option>"
+    }
+    record_chooser_html << "</select>"
+    return record_chooser_html.html_safe
   end
 end

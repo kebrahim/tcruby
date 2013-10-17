@@ -143,6 +143,9 @@ class UsersController < ApplicationController
     @user_id_to_points_chefs_map = build_user_id_to_points_chefs_map(
         users, chefstats, stats, all_picks)
     @user_id_to_users_map = build_user_id_to_user_map(users)
+
+    @current_pick = current_pick(@picks)
+    @my_pick = @current_pick && @current_pick.user_id == @user.id
   end
 
   # GET /profile

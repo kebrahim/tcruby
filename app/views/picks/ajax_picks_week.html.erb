@@ -1,10 +1,15 @@
 <h4>Week <%= @week.number %></h4>
 <form action=<%= "'/picks/week/" + @week.number.to_s + "'" %> method='post'>
-  <!-- TODO Buttons should only appear if it's current user's pick -->
-  <p class='center'>
-    <button class='btn btn-primary' name='updatepicks'>Update Picks</button>&nbsp
-    <button class='btn' name='cancel'>Cancel</button>
-  </p>
+  <% 
+    # Buttons only appear if it's current user's pick
+    if @my_pick
+  %>
+    <p class='center'>
+      <button class='btn btn-primary' name='updatepicks'>Make My Pick</button>&nbsp
+      <button class='btn' name='cancel'>Cancel</button>
+    </p>
+  <% end %>
+
   <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
     <thead><tr>
       <th>Pick</th>
@@ -17,9 +22,14 @@
       <tr>
         <td><%= pick.number.to_s %></td>
         <td><%= pick.user.full_name %></td>
-        <td><%= pick.chef ? "pic" : "--" %></td>
-        <td><%= pick.chef ? pick.chef.full_name : "--" %></td>
-        <td><%= pick.my_record_string %></td>
+        <% if @my_pick && pick.id == @current_pick.id %>
+          <td class='tdselect' colspan=2><%= chef_selector(@chefs) %></td>
+          <td class='tdselect'><%= record_selector %></td>
+        <% else %>
+          <td><%= pick.chef ? "pic" : "" %></td>
+          <td><%= pick.chef ? pick.chef.full_name : "" %></td>
+          <td><%= pick.my_record_string %></td>
+        <% end %>
         <td><%= pick.points.to_s %></td>
       </tr>
     <% } %>

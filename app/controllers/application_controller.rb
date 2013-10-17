@@ -37,6 +37,18 @@ class ApplicationController < ActionController::Base
     return weeks.last.number
   end
 
+  # returns the first pick in the list which doesn't have a selected chef, or nil if they all have a
+  # selected chef
+  def current_pick(picks)
+    picks.each { |pick|
+      if !pick.chef_id.nil?
+        next
+      end
+      return pick
+    }
+    return nil
+  end
+
   def build_chef_id_to_pick_map(picks)
     chef_id_to_pick_map = {}
     picks.each { |pick|
