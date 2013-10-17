@@ -97,8 +97,13 @@ class ApplicationController < ActionController::Base
 
   # map of user id to map of total points scored by all the chefs and number of non-eliminated chefs
   # on that user's team
-  def build_user_id_to_points_chefs_map(
-        users, chef_id_to_points_map, eliminated_chef_ids, user_id_to_picks_map)
+  def build_user_id_to_points_chefs_map(users, chefstats, stats, picks)
+    chef_id_to_points_map =
+        build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))
+    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[
+        build_stat_abbr_to_stat_map(stats)[Stat::ELIMINATED_ABBR].id]
+    user_id_to_picks_map = build_user_id_to_picks_map(picks)
+
     user_id_to_points_chefs_map = {}
     users.each { |user|
       user_id_to_points_chefs_map[user.id] = {}
@@ -116,7 +121,7 @@ class ApplicationController < ActionController::Base
 
       # for each pick, add bonus points
       user_id_to_picks_map[user.id].each { |pick|
-        user_id_to_points_chefs_map[user.id]["points"] += pick.points
+        user_id_to_points_chefs_map[user.id]["points"] += pick.points if pick.points
       }
     }
     return user_id_to_points_chefs_map

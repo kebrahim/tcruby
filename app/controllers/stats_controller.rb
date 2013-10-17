@@ -17,13 +17,8 @@ class StatsController < ApplicationController
     picks = Pick.includes(:chef)
 
     # convert data to maps
-    chef_id_to_points_map =
-        build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(@stats))
-    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[
-    	build_stat_abbr_to_stat_map(@stats)[Stat::ELIMINATED_ABBR].id]
     @user_id_to_points_chefs_map =
-        build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids,
-        	build_user_id_to_picks_map(picks))
+        build_user_id_to_points_chefs_map(users, chefstats, @stats, picks)
     @user_id_to_users_map = build_user_id_to_user_map(users)
 
     @chef_id_to_stat_id_map = build_chef_id_week_to_stat_ids_map(chefstats)
@@ -147,10 +142,42 @@ class StatsController < ApplicationController
 	    end
 	  end
     elsif params["setpicks"]
-      # TODO set weekly picks for next week
+      next_week = week + 1
+      Pick.transaction do
+        begin
+	      # if any picks exist for next week, destroy them
+	      Pick.where(week: next_week).destroy_all
+
+	      # create weekly picks for next week based on reverse order of standings
+          users = User.includes(:chefs)
+          chefstats = Chefstat.all
+          picks = Pick.includes(:chef)
+
+	      user_id_to_points_chefs_map =
+	          build_user_id_to_points_chefs_map(users, chefstats, Stat.all, picks)
+	      pickcount = 0
+	      user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.each { |user_points|
+	      	pickcount += 1
+	        create_pick(next_week, user_points[0], pickcount)
+	        create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
+	      }
+		  confirmation_message = "Successfully updated picks!"
+	    rescue Exception => e
+          confirmation_message = "Error: Problem occurred while updating picks: " + e.message
+	    end
+	  end
     end
 
     redirect_to "/scores/week/" + week.to_s, notice: confirmation_message
+  end
+
+  def create_pick(week, user_id, number)
+    pick = Pick.new
+    pick.week = week
+    pick.user_id = user_id
+    pick.number = number
+    pick.points = nil
+    pick.save
   end
 
   def update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)

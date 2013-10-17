@@ -1,5 +1,6 @@
 <h4>Week <%= @week.number %></h4>
 <form action=<%= "'/picks/week/" + @week.number.to_s + "'" %> method='post'>
+  <!-- TODO Buttons should only appear if it's current user's pick -->
   <p class='center'>
     <button class='btn btn-primary' name='updatepicks'>Update Picks</button>&nbsp
     <button class='btn' name='cancel'>Cancel</button>
@@ -16,8 +17,8 @@
       <tr>
         <td><%= pick.number.to_s %></td>
         <td><%= pick.user.full_name %></td>
-        <td>pic</td>
-        <td><%= pick.chef.full_name %></td>
+        <td><%= pick.chef ? "pic" : "--" %></td>
+        <td><%= pick.chef ? pick.chef.full_name : "--" %></td>
         <td><%= pick.my_record_string %></td>
         <td><%= pick.points.to_s %></td>
       </tr>
