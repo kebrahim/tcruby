@@ -3,4 +3,7 @@ class Stat < ActiveRecord::Base
 
   has_many :chefstats, dependent: :destroy
   has_many :chefs, :through => :chefstats
+
+  WINNER_ABBR = "W"
+  ELIMINATED_ABBR = "E"
 end

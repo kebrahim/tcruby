@@ -97,29 +97,48 @@ class ApplicationController < ActionController::Base
 
   # map of user id to map of total points scored by all the chefs and number of non-eliminated chefs
   # on that user's team
-  # TODO include weekly picks
-  def build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids)
+  def build_user_id_to_points_chefs_map(
+        users, chef_id_to_points_map, eliminated_chef_ids, user_id_to_picks_map)
     user_id_to_points_chefs_map = {}
     users.each { |user|
       user_id_to_points_chefs_map[user.id] = {}
       user_id_to_points_chefs_map[user.id]["points"] = 0
       user_id_to_points_chefs_map[user.id]["numchefs"] = 0
+
+      # for each chef belonging to user, add total points scored and increment chefcount if chef has
+      # not yet been eliminated
       user.chefs.each { |chef|
         user_id_to_points_chefs_map[user.id]["points"] += chef_id_to_points_map[chef.id]
         if !eliminated_chef_ids.include?(chef.id)
           user_id_to_points_chefs_map[user.id]["numchefs"] += 1
         end
       }
+
+      # for each pick, add bonus points
+      user_id_to_picks_map[user.id].each { |pick|
+        user_id_to_points_chefs_map[user.id]["points"] += pick.points
+      }
     }
     return user_id_to_points_chefs_map
   end
 
   def build_user_week_record_to_pick_map(picks)
-    user_week_record_to_picks_map = {}
+    user_week_record_to_pick_map = {}
     picks.each { |pick|
-      user_week_record_to_picks_map[pick.my_user_week_record_id] = pick
+      user_week_record_to_pick_map[pick.my_user_week_record_id] = pick
     }
-    return user_week_record_to_picks_map
+    return user_week_record_to_pick_map
+  end
+
+  def build_user_id_to_picks_map(picks)
+    user_id_to_picks_map = {}
+    picks.each { |pick|
+      if !user_id_to_picks_map.has_key?(pick.user_id)
+        user_id_to_picks_map[pick.user_id] = []
+      end
+      user_id_to_picks_map[pick.user_id] << pick
+    }
+    return user_id_to_picks_map
   end
 
   # map of stat_id to an array of chef ids

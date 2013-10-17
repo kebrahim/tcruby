@@ -77,12 +77,12 @@ module StatsHelper
                          <td>" + pick.points.to_s + "</td>"
 
           # update point totals
-          total_win_bonus_points += pick.points
+          total_loss_bonus_points += pick.points
           weekly_points[week] += pick.points
           total_points += pick.points
         }
       end
-      score_html << "  <td class='leftborderme'>" + total_win_bonus_points.to_s + "</td>
+      score_html << "  <td class='leftborderme'>" + total_loss_bonus_points.to_s + "</td>
                      </tr>"
 
       # totals

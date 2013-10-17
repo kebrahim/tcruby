@@ -132,15 +132,16 @@ class UsersController < ApplicationController
     @picks = Pick.includes(:chef, :user)
                  .where(week: @current_week_number)
                  .order(:number)
+    all_picks = Pick.all
 
     # convert data to maps
     chef_id_to_points_map =
         build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))
-    eliminated_chef_ids =
-        build_stat_id_to_chef_ids_map(chefstats)[build_stat_abbr_to_stat_map(stats)["E"].id]
+    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[
+        build_stat_abbr_to_stat_map(stats)[Stat::ELIMINATED_ABBR].id]
 
-    @user_id_to_points_chefs_map =
-        build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids)
+    @user_id_to_points_chefs_map = build_user_id_to_points_chefs_map(
+        users, chef_id_to_points_map, eliminated_chef_ids, build_user_id_to_picks_map(all_picks))
     @user_id_to_users_map = build_user_id_to_user_map(users)
   end
 

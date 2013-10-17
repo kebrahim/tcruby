@@ -1,4 +1,5 @@
 class StatsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
 
   # GET /scoreboard
   def scoreboard
@@ -18,10 +19,11 @@ class StatsController < ApplicationController
     # convert data to maps
     chef_id_to_points_map =
         build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(@stats))
-    eliminated_chef_ids =
-        build_stat_id_to_chef_ids_map(chefstats)[build_stat_abbr_to_stat_map(@stats)["E"].id]
+    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[
+    	build_stat_abbr_to_stat_map(@stats)[Stat::ELIMINATED_ABBR].id]
     @user_id_to_points_chefs_map =
-        build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids)
+        build_user_id_to_points_chefs_map(users, chef_id_to_points_map, eliminated_chef_ids,
+        	build_user_id_to_picks_map(picks))
     @user_id_to_users_map = build_user_id_to_user_map(users)
 
     @chef_id_to_stat_id_map = build_chef_id_week_to_stat_ids_map(chefstats)
@@ -101,9 +103,12 @@ class StatsController < ApplicationController
       chefstat_id_to_chefstat_map = build_chefstat_id_to_chefstat_map(chefstats)
 
       stats = Stat.order(:ordinal)
+      picks = Pick.where(week: week).order(:number)
 
       Chefstat.transaction do
         begin
+          winning_chef_ids = []
+          eliminated_chef_ids = []
 	      stats.each { |stat|
 	        selected_chef_ids = params[stat.abbreviation].nil? ? [] :
 	            params[stat.abbreviation].collect { |chef_id| chef_id.to_i }
@@ -124,10 +129,21 @@ class StatsController < ApplicationController
 	          chefstat = chefstat_id_to_chefstat_map[Chefstat::identifier(chef_id, stat.id, week)]
 	          chefstat.destroy
 	        }
+
+	        # save winner/eliminated chef ids
+            if (stat.abbreviation == Stat::WINNER_ABBR)
+              winning_chef_ids = selected_chef_ids
+            elsif (stat.abbreviation == Stat::ELIMINATED_ABBR)
+              eliminated_chef_ids = selected_chef_ids
+            end
 	      }
+
+          # update picks
+          update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
+
 	      confirmation_message = "Successfully updated scores!"
 	    rescue Exception => e
-          confirmation_message = "Error: Problem occurred while updating scores"
+          confirmation_message = "Error: Problem occurred while updating scores: " + e.message
 	    end
 	  end
     elsif params["setpicks"]
@@ -135,5 +151,29 @@ class StatsController < ApplicationController
     end
 
     redirect_to "/scores/week/" + week.to_s, notice: confirmation_message
+  end
+
+  def update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
+  	picks.each { |pick|
+      expected_pick_points = (pick.record.to_s == :win.to_s) ?
+          get_expected_pick_points(pick, winning_chef_ids, eliminated_chef_ids) :
+          get_expected_pick_points(pick, eliminated_chef_ids, winning_chef_ids)
+      if expected_pick_points != pick.points
+        # pick doesn't have correct score; update it!
+        pick.update_attribute(:points, expected_pick_points)
+      end
+  	}
+  end
+
+  def get_expected_pick_points(pick, record_chef_ids, non_record_chef_ids)
+    if record_chef_ids.include?(pick.chef_id)
+      # chef & record is correct. points are based on week
+      return [(Pick::MAX_BONUS - ((pick.week - 1) / Pick::WEEKLY_STEP)), 0].max
+    elsif non_record_chef_ids.include?(pick.chef_id)
+      # chef is correct, but record is not; return mismatch penalty
+      return Pick::MISMATCH_PENALTY;
+    else
+      return 0
+    end
   end
 end

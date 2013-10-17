@@ -7,6 +7,10 @@ class Pick < ActiveRecord::Base
 
   enumerize :record, in: [:win, :loss]
 
+  MISMATCH_PENALTY = -1
+  MAX_BONUS = 5
+  WEEKLY_STEP = 3
+
   def self.abbreviation_to_record(record_abbreviation)
     if record_abbreviation == "W"
       return :win
