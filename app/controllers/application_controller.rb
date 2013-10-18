@@ -125,16 +125,20 @@ class ApplicationController < ActionController::Base
       # for each chef belonging to user, add total points scored and increment chefcount if chef has
       # not yet been eliminated
       user.chefs.each { |chef|
-        user_id_to_points_chefs_map[user.id]["points"] += chef_id_to_points_map[chef.id]
-        if !eliminated_chef_ids.include?(chef.id)
+        if chef_id_to_points_map.has_key?(chef.id)
+          user_id_to_points_chefs_map[user.id]["points"] += chef_id_to_points_map[chef.id]
+        end
+        if eliminated_chef_ids.nil? || !eliminated_chef_ids.include?(chef.id)
           user_id_to_points_chefs_map[user.id]["numchefs"] += 1
         end
       }
 
       # for each pick, add bonus points
-      user_id_to_picks_map[user.id].each { |pick|
-        user_id_to_points_chefs_map[user.id]["points"] += pick.points if pick.points
-      }
+      if user_id_to_picks_map.has_key?(user.id)
+        user_id_to_picks_map[user.id].each { |pick|
+          user_id_to_points_chefs_map[user.id]["points"] += pick.points if pick.points
+        }
+      end
     }
     return user_id_to_points_chefs_map
   end

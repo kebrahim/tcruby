@@ -104,68 +104,68 @@ class StatsController < ApplicationController
         begin
           winning_chef_ids = []
           eliminated_chef_ids = []
-	      stats.each { |stat|
-	        selected_chef_ids = params[stat.abbreviation].nil? ? [] :
-	            params[stat.abbreviation].collect { |chef_id| chef_id.to_i }
-	        existing_chef_ids = stat_id_to_chef_ids_map.has_key?(stat.id) ?
-	              stat_id_to_chef_ids_map[stat.id] : []
+          stats.each { |stat|
+            selected_chef_ids = params[stat.abbreviation].nil? ? [] :
+                params[stat.abbreviation].collect { |chef_id| chef_id.to_i }
+            existing_chef_ids = stat_id_to_chef_ids_map.has_key?(stat.id) ?
+                stat_id_to_chef_ids_map[stat.id] : []
 
-	        # any ids in selected but not in existing should be created
-	        (selected_chef_ids - existing_chef_ids).each { |chef_id|
-	          chefstat = Chefstat.new
-	          chefstat.week = week
-	          chefstat.chef_id = chef_id
-	          chefstat.stat_id = stat.id
-	          chefstat.save
-	        }
+            # any ids in selected but not in existing should be created
+            (selected_chef_ids - existing_chef_ids).each { |chef_id|
+              chefstat = Chefstat.new
+              chefstat.week = week
+              chefstat.chef_id = chef_id
+              chefstat.stat_id = stat.id
+              chefstat.save
+            }
 
-	        # any ids in existing but not in created should be deleted
-	        (existing_chef_ids - selected_chef_ids).each { |chef_id|
-	          chefstat = chefstat_id_to_chefstat_map[Chefstat::identifier(chef_id, stat.id, week)]
-	          chefstat.destroy
-	        }
+            # any ids in existing but not in created should be deleted
+            (existing_chef_ids - selected_chef_ids).each { |chef_id|
+              chefstat = chefstat_id_to_chefstat_map[Chefstat::identifier(chef_id, stat.id, week)]
+              chefstat.destroy
+            }
 
-	        # save winner/eliminated chef ids
+            # save winner/eliminated chef ids
             if (stat.abbreviation == Stat::WINNER_ABBR)
               winning_chef_ids = selected_chef_ids
             elsif (stat.abbreviation == Stat::ELIMINATED_ABBR)
               eliminated_chef_ids = selected_chef_ids
             end
-	      }
+          }
 
           # update picks
           update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
 
-	      confirmation_message = "Successfully updated scores!"
-	    rescue Exception => e
+          confirmation_message = "Successfully updated scores!"
+        rescue Exception => e
           confirmation_message = "Error: Problem occurred while updating scores: " + e.message
-	    end
-	  end
+        end
+      end
     elsif params["setpicks"]
       next_week = week + 1
       Pick.transaction do
         begin
-	      # if any picks exist for next week, destroy them
-	      Pick.where(week: next_week).destroy_all
+          # if any picks exist for next week, destroy them
+          Pick.where(week: next_week).destroy_all
 
-	      # create weekly picks for next week based on reverse order of standings
+          # create weekly picks for next week based on reverse order of standings
           users = User.includes(:chefs)
           chefstats = Chefstat.all
           picks = Pick.includes(:chef)
 
-	      user_id_to_points_chefs_map =
-	          build_user_id_to_points_chefs_map(users, chefstats, Stat.all, picks)
-	      pickcount = 0
-	      user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.each { |user_points|
-	      	pickcount += 1
-	        create_pick(next_week, user_points[0], pickcount)
-	        create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
-	      }
-		  confirmation_message = "Successfully updated picks!"
-	    rescue Exception => e
+          user_id_to_points_chefs_map =
+              build_user_id_to_points_chefs_map(users, chefstats, Stat.all, picks)
+          pickcount = 0
+          user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.each { |user_points|
+            pickcount += 1
+            create_pick(next_week, user_points[0], pickcount)
+            create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
+          }
+          confirmation_message = "Successfully updated picks!"
+        rescue Exception => e
           confirmation_message = "Error: Problem occurred while updating picks: " + e.message
-	    end
-	  end
+        end
+      end
     end
 
     redirect_to "/scores/week/" + week.to_s, notice: confirmation_message
@@ -181,7 +181,7 @@ class StatsController < ApplicationController
   end
 
   def update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
-  	picks.each { |pick|
+    picks.each { |pick|
       expected_pick_points = (pick.record.to_s == :win.to_s) ?
           get_expected_pick_points(pick, winning_chef_ids, eliminated_chef_ids) :
           get_expected_pick_points(pick, eliminated_chef_ids, winning_chef_ids)
@@ -189,7 +189,7 @@ class StatsController < ApplicationController
         # pick doesn't have correct score; update it!
         pick.update_attribute(:points, expected_pick_points)
       end
-  	}
+    }
   end
 
   def get_expected_pick_points(pick, record_chef_ids, non_record_chef_ids)
