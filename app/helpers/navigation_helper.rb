@@ -22,8 +22,13 @@ module NavigationHelper
          <ul class='nav'>" <<
          vertical_divider <<
          button_link(DASHBOARD_BUTTON, "Dashboard", "/dashboard", selected_button) <<
-         button_link(SCOREBOARD_BUTTON, "Scoreboard", "/scoreboard", selected_button) <<
-         button_link(MY_TEAM_BUTTON, "My Team", "/my_team", selected_button) <<
+         button_link(SCOREBOARD_BUTTON, "Scoreboard", "/scoreboard", selected_button)
+
+      if !current_user.is_demo_user
+        navbar <<
+           button_link(MY_TEAM_BUTTON, "My Team", "/my_team", selected_button)
+      end
+      navbar <<
          button_link(WEEKLY_PICKS_BUTTON, "Weekly Picks", "/picks", selected_button) <<
          button_link(CHEFS_BUTTON, "The Chefs", "/chefs", selected_button)
 
@@ -40,15 +45,25 @@ module NavigationHelper
             drop_down("Admin", selected_button, admin_buttons)
       end
 
-      navbar <<
-        "</ul>" <<
-        "<ul class='nav pull-right'>" <<
-         vertical_divider <<
-         drop_down("Hi " + current_user.first_name + "!", selected_button,
-             [{ btn: EDIT_PROFILE_BUTTON, txt: "Edit Profile", lnk: "/profile", icon: "edit" },
-              { type: "divider" },
-              { txt: "Sign out", lnk: "/logout", icon: "eject" }]) <<
-        "</ul>"
+      if !current_user.is_demo_user
+        navbar <<
+          "</ul>" <<
+          "<ul class='nav pull-right'>" <<
+           vertical_divider <<
+           drop_down("Hi " + current_user.first_name + "!", selected_button,
+               [{ btn: EDIT_PROFILE_BUTTON, txt: "Edit Profile", lnk: "/profile", icon: "edit" },
+                { type: "divider" },
+                { txt: "Sign out", lnk: "/logout", icon: "eject" }]) <<
+          "</ul>"
+      else
+        navbar <<
+          "</ul>" <<
+          "<ul class='nav pull-right'>" <<
+           vertical_divider <<
+           drop_down("Hi Demo User!", selected_button,
+               [{ txt: "Sign out", lnk: "/logout", icon: "eject" }]) <<
+          "</ul>"
+      end
     else
       navbar << "<div class='brand brandctr'>Top Chef Rotiss</div>"
     end

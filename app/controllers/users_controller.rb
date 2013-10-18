@@ -125,7 +125,7 @@ class UsersController < ApplicationController
     end
 
     # load data
-    users = User.includes(:chefs)
+    users = User.includes(:chefs).where("role != 'demo'")
     chefstats = Chefstat.all
     stats = Stat.all
     @current_week_number = current_week_number
@@ -148,7 +148,7 @@ class UsersController < ApplicationController
     @admin_function = false
     @current_user = current_user
     @user = @current_user
-    if @user.nil?
+    if @user.nil? || @user.is_demo_user
       redirect_to root_url
       return
     end
@@ -157,7 +157,7 @@ class UsersController < ApplicationController
   # GET /my_team
   def my_team
     @user = current_user
-    if @user.nil?
+    if @user.nil? || @user.is_demo_user
       redirect_to root_url
       return
     end

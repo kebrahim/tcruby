@@ -12,7 +12,7 @@ class StatsController < ApplicationController
     # load data from db
     @stats = Stat.order(:ordinal)
     @max_week = Chefstat.maximum(:week)
-    users = User.includes(:chefs)
+    users = User.includes(:chefs).where("role != 'demo'")
     chefstats = Chefstat.all
     picks = Pick.includes(:chef)
 
@@ -149,7 +149,7 @@ class StatsController < ApplicationController
           Pick.where(week: next_week).destroy_all
 
           # create weekly picks for next week based on reverse order of standings
-          users = User.includes(:chefs)
+          users = User.includes(:chefs).where("role != 'demo'")
           chefstats = Chefstat.all
           picks = Pick.includes(:chef)
 

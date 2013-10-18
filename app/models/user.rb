@@ -57,9 +57,14 @@ class User < ActiveRecord::Base
     User.find(:all, :conditions => ["lower(email) = lower(?)", email]).first
   end
 
-  # returns true if this user is an admin or super-admin
+  # returns true if this user is an admin
   def is_admin
-    return :admin.to_s == self.role
+    return :admin.to_s == self.role.to_s
+  end
+
+  # returns true if this user is a demo user
+  def is_demo_user
+    return :demo.to_s == self.role.to_s
   end
 
   # returns the role associated with this user's role string
