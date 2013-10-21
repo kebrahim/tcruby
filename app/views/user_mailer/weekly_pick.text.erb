@@ -1,0 +1,26 @@
+<h3>Top Chef Rotiss Week <%= @week.to_s %> Picks</h3>
+<table border style='text-align:center'>
+  <thead><tr>
+    <th>Pick</th>
+    <th>Team</th>
+    <th>Chef</th>
+    <th>Win/Loss</th>
+  </tr></thead>
+  <% @picks.each { |pick| %>
+    <tr>
+      <td><%= pick.number.to_s %></td>
+      <td><%= pick.user.full_name %></td>
+      <td><%= pick.chef ? pick.chef.full_name : "" %></td>
+      <td><%= pick.chef ? pick.my_record_string : "" %></td>
+    </tr>
+  <% } %>
+</table>
+
+<p>
+  <% if @current_pick %>
+    It is now <a href='http://topchef.rotiss.com/picks'>
+        <%= @current_pick.user.first_name %>'s turn</a> to pick!
+  <% else %>
+    Congratulations! All week <%= @week.to_s %> picks are complete!
+  <% end %>
+</p>
