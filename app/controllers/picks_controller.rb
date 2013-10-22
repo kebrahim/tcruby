@@ -35,7 +35,7 @@ class PicksController < ApplicationController
 
     # only let user see weeks that have completed
     @week = Week.find_by_number(params[:number].to_i)
-    if @week && DateTime.now > @week.start_time
+    if @week
       @picks = Pick.includes(:chef, :user)
                    .where(week: @week.number)
                    .order(:number)
