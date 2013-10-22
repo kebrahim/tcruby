@@ -128,7 +128,7 @@ class UsersController < ApplicationController
     users = User.includes(:chefs).where("role != 'demo'")
     chefstats = Chefstat.all
     stats = Stat.all
-    @current_week_number = current_week_number
+    @current_week_number = Pick.maximum(:week)
     @picks = Pick.includes(:chef, :user)
                  .where(week: @current_week_number)
                  .order(:number)
