@@ -162,12 +162,9 @@ class StatsController < ApplicationController
             create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
           }
 
-          # send next week's weekly picks email
-          # TODO include previous week's scoring summary
-          next_week_picks = Pick.includes(:user, :chef)
-                                .where(week: next_week)
-                                .order(:number)
-          UserMailer.weekly_pick(next_week, next_week_picks, next_week_picks.first).deliver
+          # send scoring summary email
+          UserMailer.scoring_summary(
+              week, user_id_to_points_chefs_map, build_user_id_to_user_map(users)).deliver
 
           confirmation_message = "Successfully updated picks!"
         rescue Exception => e

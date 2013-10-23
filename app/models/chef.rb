@@ -10,4 +10,11 @@ class Chef < ActiveRecord::Base
   def full_name
     return self.first_name + " " + self.last_name
   end
+
+  # Returns a comma-separated list of users which own this chef
+  def user_string
+    return self.users.collect { |user|
+      user.first_name
+    }.join(", ")
+  end
 end
