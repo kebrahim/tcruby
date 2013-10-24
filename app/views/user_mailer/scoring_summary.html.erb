@@ -14,18 +14,19 @@
       <td><%= chef.full_name %></td>
       <td><%= chef.user_string %></td>
       <%
-        chefstat_abbreviations = []
+        chefstat_names = {}
+        [:quickfire, :elimination, :miscellaneous].each { |stat_type|
+          chefstat_names[stat_type] = []
+        }
         chef_points = 0
         chef.chefstats.each { |chefstat|
-          chefstat_abbreviations << chefstat.stat.abbreviation
+          chefstat_names[chefstat.stat.my_stat_type] << chefstat.stat.short_name
           chef_points += chefstat.stat.points
         }
-        # TODO separate stats by type
-        chefstat_string = chefstat_abbreviations.join(", ")
       %>
-      <td><%= chefstat_string %></td>
-      <td><%= chefstat_string %></td>
-      <td><%= chefstat_string %></td>
+      <td><%= chefstat_names[:quickfire].join(",") %></td>
+      <td><%= chefstat_names[:elimination].join(",") %></td>
+      <td><%= chefstat_names[:miscellaneous].join(",") %></td>
       <td><%= chef_points.to_s %></td>
     </tr>
   <% } %>

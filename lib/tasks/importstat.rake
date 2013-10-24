@@ -48,4 +48,27 @@ namespace :importstat do
     end
     puts "Imported " + wkcount.to_s + " scoring weeks!"
   end
+
+  desc "Imports stat type data from CSV file"
+  task :types => :environment do
+    require 'csv'
+    typecount = 0
+    CSV.foreach(File.join(File.expand_path(::Rails.root), "/lib/assets/stat_types.csv")) do |row|
+      # skip comment line
+      if row[0].starts_with?("#")
+        next
+      end
+
+      stat_abbr = row[0]
+      type_abbr = row[1]
+      stat = Stat.find_by_abbreviation(stat_abbr)
+      stat_type = Stat.type_abbreviation_to_type(type_abbr)
+      
+      if stat && stat_type
+        stat.update_attribute(:stat_type, stat_type)
+        typecount += 1
+      end
+    end
+    puts "Imported " + typecount.to_s + " stat types!"
+  end  
 end
