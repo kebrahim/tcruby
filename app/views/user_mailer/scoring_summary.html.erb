@@ -3,10 +3,10 @@
 <table border style='text-align:center'>
   <thead><tr>
     <th>Chef</th>
-    <th>Teams</th>
+    <th>Owners</th>
     <th>QuickFire</th>
     <th>Elimination</th>
-    <th>Misc</th>
+    <th>Misellaneous</th>
     <th>Points</th>
   </tr></thead>
   <% @chefs.each { |chef| %>
@@ -20,7 +20,7 @@
         }
         chef_points = 0
         chef.chefstats.each { |chefstat|
-          chefstat_names[chefstat.stat.my_stat_type] << chefstat.stat.short_name
+          chefstat_names[chefstat.stat.my_stat_type] << chefstat.stat.report_name
           chef_points += chefstat.stat.points
         }
       %>

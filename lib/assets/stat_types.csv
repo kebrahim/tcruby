@@ -1,21 +1,21 @@
 # stat_abbr, type
-E,E
-W,E
-Ti,E
-Bi,E
-Qi,Q
-QTi,Q
-QBi,Q
-C,M
-Wt,E
-Mi,E
-QMi,Q
-QTt,Q
-Qt,Q
-Tt,E
-Mt,E
-QMt,Q
-L,M
-X,M
-Bt,E
-QBt,Q
+E,E,"Eliminated"
+W,E,"Winner"
+Ti,E,"Top"
+Bi,E,"Bottom"
+Qi,Q,"Winner"
+QTi,Q,"Top"
+QBi,Q,"Bottom"
+C,M,"Cut"
+Wt,E,"Winning Team"
+Mi,E,"Middle"
+QMi,Q,"Middle"
+QTt,Q,"Top Team"
+Qt,Q,"Winning Team"
+Tt,E,"Top Team"
+Mt,E,"Middle Team"
+QMt,Q,"Middle Team"
+L,M,"LCK Winner"
+X,M,"LCK Loser"
+Bt,E,"Bottom Team"
+QBt,Q,"Bottom Team"

@@ -1,7 +1,7 @@
 class Stat < ActiveRecord::Base
   extend Enumerize
 
-  attr_accessible :abbreviation, :name, :ordinal, :points, :short_name, :stat_type
+  attr_accessible :abbreviation, :name, :ordinal, :points, :short_name, :stat_type, :report_name
 
   enumerize :stat_type, in: [:quickfire, :elimination, :miscellaneous]
 

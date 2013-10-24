@@ -61,11 +61,12 @@ namespace :importstat do
 
       stat_abbr = row[0]
       type_abbr = row[1]
+      report_name = row[2]
       stat = Stat.find_by_abbreviation(stat_abbr)
       stat_type = Stat.type_abbreviation_to_type(type_abbr)
-      
+
       if stat && stat_type
-        stat.update_attribute(:stat_type, stat_type)
+        stat.update_attributes({stat_type: stat_type, report_name: report_name})
         typecount += 1
       end
     end
