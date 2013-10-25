@@ -12,9 +12,10 @@ class Chef < ActiveRecord::Base
   end
 
   # Returns a comma-separated list of users which own this chef
-  def user_string
+  def user_string(with_links = false)
     return self.users.collect { |user|
-      user.first_name
+      with_links ? ("<a href='teams/" + user.id.to_s + "'>" + user.first_name + "</a>") :
+          user.first_name
     }.join(", ")
   end
 end

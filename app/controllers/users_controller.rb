@@ -128,9 +128,10 @@ class UsersController < ApplicationController
     users = User.includes(:chefs).where("role != 'demo'")
     chefstats = Chefstat.all
     stats = Stat.all
-    @current_week_number = Pick.maximum(:week)
+    @score_week_number = Chefstat.maximum(:week)
+    @pick_week_number = Pick.maximum(:week)
     @picks = Pick.includes(:chef, :user)
-                 .where(week: @current_week_number)
+                 .where(week: @pick_week_number)
                  .order(:number)
     all_picks = Pick.all
 
@@ -154,17 +155,43 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /my_team
-  def my_team
-    @user = current_user
-    if @user.nil? || @user.is_demo_user
+  # GET /teams
+  def teams
+    @current_user = current_user
+    if @current_user.nil?
+      redirect_to root_url
+      return
+    end
+    @users = User.where("role != 'demo'").order(:first_name, :last_name)
+    @selected_user = @current_user
+  end
+
+  # GET /teams/:user_id
+  def team
+    @current_user = current_user
+    if @current_user.nil?
+      redirect_to root_url
+      return
+    end
+    @users = User.where("role != 'demo'").order(:first_name, :last_name)
+    @selected_user = User.find(params[:user_id].to_i)
+    render "teams"
+  end
+
+  # GET /ajax/teams/:user_id
+  def ajax_team
+    @current_user = current_user
+    if @current_user.nil?
       redirect_to root_url
       return
     end
 
-    @chefs = @user.chefs
+    @selected_user = User.find(params[:user_id].to_i)
+    @chefs = @selected_user.chefs
     @chef_id_to_pick_map = build_chef_id_to_pick_map(
         DraftPick.where("chef_id in (?)", @chefs.collect{|chef| chef.id})
-                 .where(user_id: @user.id))
+                 .where(user_id: @selected_user.id))
+
+    render :layout => "ajax"
   end
 end

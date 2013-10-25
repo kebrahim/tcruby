@@ -114,4 +114,18 @@ module ApplicationHelper
     record_chooser_html << "</select>"
     return record_chooser_html.html_safe
   end
+
+  # returns a select tag, allowing user to choose from the list of specified users, marking the
+  # specified selected user as selected
+  def user_selector(users, selected_user)
+    user_chooser_html = "<label>Select team:</label>&nbsp&nbsp
+                         <select class='input-large' id='user_chooser'>"
+    users.each { |user|
+      user_chooser_html << "<option value=" + user.id.to_s
+      user_chooser_html << " selected" if user.id == selected_user.id
+      user_chooser_html << ">" + user.full_name + "</option>"
+    }
+    user_chooser_html << "</select>"
+    return user_chooser_html.html_safe
+  end
 end

@@ -4,7 +4,8 @@ module StatsHelper
     score_html = ""
     @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points|
       user = @user_id_to_users_map[user_points[0]]
-      score_html << "<h5>" + user.full_name + " (" + user_points[1]["points"].to_s + ")</h5>"
+      score_html << "<h5><a href='teams/" + user.id.to_s + "'>" + user.full_name + "</a> (" + 
+          user_points[1]["points"].to_s + ")</h5>"
       score_html << "<table class='" + ApplicationHelper::TABLE_SMALL_CLASS + "'>
                        <thead><tr>
                          <th colspan=2>Chef</th>"

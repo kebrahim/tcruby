@@ -28,8 +28,10 @@ Tcruby::Application.routes.draw do
   # users
   resources :users
   get "dashboard" => "users#dashboard"
-  get "my_team" => "users#my_team"
   get "profile" => "users#profile"
+  get "teams" => "users#teams"
+  get "teams/:user_id" => "users#team"
+  get "ajax/teams/:user_id" => "users#ajax_team"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
