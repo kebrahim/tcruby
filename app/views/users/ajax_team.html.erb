@@ -1,5 +1,5 @@
-<div class='span8 center'>
-  <h4><%= @selected_user.first_name %>'s Team</h3>
+<div class='span7 center'>
+  <h4><%= @selected_user.first_name %>'s Team</h4>
 
   <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
     <thead><tr>
@@ -24,6 +24,35 @@
   </table>
 </div>
 
-<div class='span4 center'>
-  <h4>Weekly Picks</h3>
+<div class='span5 center'>
+  <h4>Weekly Picks</h4>
+  <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
+    <thead><tr>
+      <th class='rightborderme'>Week</th>
+      <th colspan=2 class='rightborderme'>Chef</th>
+      <th class='rightborderme'>Win/Loss</th>
+      <th>Bonus Points</th>
+    </tr></thead>
+
+    <% pick_count = 0 %>
+    <% @picks.each do |pick| %>
+      <tr>
+        <%
+          pick_count += 1
+          if pick_count.odd?
+        %>
+          <td rowspan=2><%= pick.week.to_s %></td>
+        <% end %>
+        
+        <% if pick.chef %>
+          <td>pic</td>
+          <td><%= pick.chef.first_name %></td>
+          <td><%= pick.my_record_string %></td>
+          <td><%= pick.points.to_s %></td>
+        <% else %>
+          <td colspan=2></td><td></td><td></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </div>

@@ -191,6 +191,10 @@ class UsersController < ApplicationController
     @chef_id_to_pick_map = build_chef_id_to_pick_map(
         DraftPick.where("chef_id in (?)", @chefs.collect{|chef| chef.id})
                  .where(user_id: @selected_user.id))
+    @picks = Pick.includes(:chef)
+                 .where("chef_id is not null")
+                 .where(user_id: @selected_user.id)
+                 .order(:week, "record DESC")
 
     render :layout => "ajax"
   end
