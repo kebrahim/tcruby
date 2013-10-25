@@ -74,12 +74,23 @@ module ApplicationHelper
     return week_chooser_html.html_safe
   end
 
-  def chef_selector(chefs)
-    chef_chooser_html = "<select class='input-large' name='chef_id'>
-                           <option value=0>-- Select Chef --</option>"
+  def chef_selector(chefs, selected_chef, has_no_chef_selection, has_label)
+    chef_chooser_html = ""
+    if has_label
+      chef_chooser_html << "<label for='chef_chooser'>Select chef:</label>&nbsp&nbsp"
+    end
+    chef_chooser_html << "<select id='chef_chooser' class='input-large' name='chef_id'>"
+    if has_no_chef_selection
+      chef_chooser_html << "<option value=0>-- Select Chef --</option>"
+    end
+
     # chefs
     chefs.each { |chef|
-      chef_chooser_html << "<option value=" + chef.id.to_s +  ">" + chef.full_name + "</option>"
+      chef_chooser_html << "<option value=" + chef.id.to_s
+      if selected_chef && chef.id == selected_chef.id
+        chef_chooser_html << " selected"
+      end
+      chef_chooser_html << ">" + chef.full_name + "</option>"
     }
     chef_chooser_html << "</select>"
     return chef_chooser_html.html_safe

@@ -18,6 +18,8 @@ Tcruby::Application.routes.draw do
 
   # chefs
   get "chefs" => "chefs#index"
+  get "chefs/:id" => "chefs#show"
+  get "ajax/chefs/:id" => "chefs#ajax_show"
 
   # sessions
   resources :sessions
