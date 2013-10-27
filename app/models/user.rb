@@ -81,4 +81,17 @@ class User < ActiveRecord::Base
     }
     return nil
   end
+
+  # returns a link to this user's team page with the specified label
+  def link_to_page_with_label(label)
+    return ("<a href='teams/" + self.id.to_s + "'>" + label + "</a>").html_safe
+  end
+
+  def link_to_page_with_first_name
+    return link_to_page_with_label(self.first_name)
+  end
+
+  def link_to_page_with_full_name
+    return link_to_page_with_label(self.full_name)
+  end
 end

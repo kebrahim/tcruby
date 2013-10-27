@@ -1,3 +1,53 @@
-<div class='span12 center'>
-  <h3><%= @selected_chef.full_name %></h3>
+<div class='row-fluid'>
+  <div class='span12 center'>
+    <h3><%= @selected_chef.full_name %></h3>
+  </div>
+</div>
+
+<div class='row-fluid'>
+  <div class='span8 center'>
+    <h4>Chef Stats</h4>
+    <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
+      <thead><tr>
+        <th class='rightborderme'>Week</th>
+        <th class='rightborderme'>Quickfire</th>
+        <th class='rightborderme'>Elimination</th>
+        <th class='rightborderme'>Miscellaneous</th>
+        <th>Points</th>
+      </tr></thead>
+      
+      <%
+        total_points = 0
+        1.upto(@max_week) { |week|
+          if @stattype_week_to_chefstats_map[:quickfire].has_key?(week) ||
+          	 @stattype_week_to_chefstats_map[:elimination].has_key?(week) ||
+          	 @stattype_week_to_chefstats_map[:miscellaneous].has_key?(week)
+      %>
+            <tr>
+              <td class='rightborderme'><%= week.to_s %></td>
+              <td><%= chefstats_to_report_names(:quickfire, week) %></td>
+              <td><%= chefstats_to_report_names(:elimination, week) %></td>
+              <td class='rightborderme'><%= chefstats_to_report_names(:miscellaneous, week) %></td>
+      <%
+            points = chefstats_to_points(week)
+            total_points += points
+      %>
+              <td><%= points.to_s %></td>
+            </tr>
+      <% 
+          end
+        }
+      %>
+      <tr class='topborderme'>
+        <td colspan=4 class='rightborderme'><strong>Total</strong></td>
+        <td><strong><%= total_points.to_s %></strong></td>
+      </tr>
+    </table>
+
+    <h4>Weekly Picks</h4>
+  </div>
+
+  <div class='span4 center'>
+    <h4>Big Pic</h4>
+  </div>
 </div>

@@ -12,7 +12,7 @@
     <% @chefs.each do |chef| %>
       <tr>
         <td>Pic</td>
-        <td><%= chef.full_name %></td>
+        <td><%= chef.link_to_page_with_full_name %></td>
         <%
           draft_pick = @chef_id_to_pick_map[chef.id]
         %>
@@ -46,7 +46,7 @@
         
         <% if pick.chef %>
           <td>pic</td>
-          <td><%= pick.chef.first_name %></td>
+          <td><%= pick.chef.link_to_page_with_first_name %></td>
           <td><%= pick.my_record_string %></td>
           <td><%= pick.points.to_s %></td>
         <% else %>

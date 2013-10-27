@@ -7,4 +7,24 @@ module ChefsHelper
     }.join(", ")
     return picks_html.html_safe
   end
+
+  def chefstats_to_report_names(stat_type, week)
+    if @stattype_week_to_chefstats_map[stat_type].has_key?(week)
+      return @stattype_week_to_chefstats_map[stat_type][week].collect { |chefstat|
+          chefstat.stat.report_name }.join(", ")
+    end
+    return ""
+  end
+
+  def chefstats_to_points(week)
+    points = 0
+    Stat::ALL_TYPES_ARRAY.each { |stat_type|
+      if @stattype_week_to_chefstats_map[stat_type].has_key?(week)
+        @stattype_week_to_chefstats_map[stat_type][week].each { |chefstat|
+          points += chefstat.stat.points
+        }
+      end
+    }
+    return points
+  end
 end

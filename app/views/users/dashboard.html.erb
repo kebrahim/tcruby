@@ -32,9 +32,7 @@
             end
           %>
           <td><%= rank.to_s %></td>
-          <td><a href=<%= "'teams/" + user_points[0].to_s + "'" %>>
-                <%= @user_id_to_users_map[user_points[0]].full_name %>
-              </a></td>
+          <td><%= @user_id_to_users_map[user_points[0]].link_to_page_with_full_name %></td>
           <td><%= user_points[1]["points"].to_s %></td>
           <td><%= user_points[1]["numchefs"].to_s %></td>
         </tr>
@@ -63,7 +61,7 @@
           <td>
             <a href=<%= "'teams/" + pick.user.id.to_s + "'" %>><%= pick.user.first_name %></a>
           </td>
-          <td><%= pick.chef.nil? ? "" : pick.chef.first_name %></td>
+          <td><%= pick.chef.nil? ? "" : pick.chef.link_to_page_with_first_name %></td>
           <td><%= pick.my_record_string %></td>
           <td><%= pick.points.nil? ? "" : pick.points.to_s %></td>
         </tr>

@@ -14,8 +14,20 @@ class Chef < ActiveRecord::Base
   # Returns a comma-separated list of users which own this chef
   def user_string(with_links = false)
     return self.users.collect { |user|
-      with_links ? ("<a href='teams/" + user.id.to_s + "'>" + user.first_name + "</a>") :
-          user.first_name
+      with_links ? user.link_to_page_with_first_name : user.first_name
     }.join(", ")
+  end
+
+  # returns a link to this chef's page with the specified label
+  def link_to_page_with_label(label)
+    return ("<a href='chefs/" + self.id.to_s + "'>" + label + "</a>").html_safe
+  end
+
+  def link_to_page_with_first_name
+    return link_to_page_with_label(self.first_name)
+  end
+
+  def link_to_page_with_full_name
+    return link_to_page_with_label(self.full_name)
   end
 end

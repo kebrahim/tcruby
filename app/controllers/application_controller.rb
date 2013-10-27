@@ -206,4 +206,18 @@ class ApplicationController < ActionController::Base
     }
     return user_id_to_user_map
   end
+
+  def build_stattype_week_to_chefstats_map(chefstats)
+    stattype_week_to_chefstats_map = {}
+    Stat::ALL_TYPES_ARRAY.each { |stat_type|
+      stattype_week_to_chefstats_map[stat_type] = {}
+    }
+    chefstats.each { |chefstat|
+      if !stattype_week_to_chefstats_map[chefstat.stat.my_stat_type].has_key?(chefstat.week)
+        stattype_week_to_chefstats_map[chefstat.stat.my_stat_type][chefstat.week] = []
+      end
+      stattype_week_to_chefstats_map[chefstat.stat.my_stat_type][chefstat.week] << chefstat
+    }
+    return stattype_week_to_chefstats_map
+  end
 end

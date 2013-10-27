@@ -15,7 +15,7 @@
       <td><%= chef.user_string %></td>
       <%
         chefstat_names = {}
-        [:quickfire, :elimination, :miscellaneous].each { |stat_type|
+        Stat::ALL_TYPES_ARRAY.each { |stat_type|
           chefstat_names[stat_type] = []
         }
         chef_points = 0

@@ -21,13 +21,13 @@
     <% @picks.each { |pick| %>
       <tr>
         <td><%= pick.number.to_s %></td>
-        <td><a href=<%= "'teams/" + pick.user.id.to_s + "'" %>><%= pick.user.full_name %></a></td>
+        <td><%= pick.user.link_to_page_with_full_name %></td>
         <% if @my_pick && pick.id == @current_pick.id %>
           <td class='tdselect' colspan=2><%= chef_selector(@chefs, nil, true, false) %></td>
           <td class='tdselect'><%= record_selector %></td>
         <% else %>
           <td><%= pick.chef ? "pic" : "" %></td>
-          <td><%= pick.chef ? pick.chef.full_name : "" %></td>
+          <td><%= pick.chef ? pick.chef.link_to_page_with_full_name : "" %></td>
           <td><%= pick.my_record_string %></td>
         <% end %>
         <td><%= pick.points.to_s %></td>

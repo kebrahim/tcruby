@@ -11,6 +11,8 @@ class Stat < ActiveRecord::Base
   WINNER_ABBR = "W"
   ELIMINATED_ABBR = "E"
 
+  ALL_TYPES_ARRAY = [:quickfire, :elimination, :miscellaneous]
+
   def self.type_abbreviation_to_type(type_abbreviation)
     if type_abbreviation == "Q"
       return :quickfire

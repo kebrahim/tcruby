@@ -4,7 +4,7 @@ module StatsHelper
     score_html = ""
     @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points|
       user = @user_id_to_users_map[user_points[0]]
-      score_html << "<h5><a href='teams/" + user.id.to_s + "'>" + user.full_name + "</a> (" + 
+      score_html << "<h5>" + user.link_to_page_with_full_name + " (" + 
           user_points[1]["points"].to_s + ")</h5>"
       score_html << "<table class='" + ApplicationHelper::TABLE_SMALL_CLASS + "'>
                        <thead><tr>
@@ -22,7 +22,7 @@ module StatsHelper
       total_points = 0
       user.chefs.each { |chef|
         score_html << "<tr>
-                         <td>pic</td><td>" + chef.full_name + "</td>"
+                         <td>pic</td><td>" + chef.link_to_page_with_full_name + "</td>"
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|
@@ -56,7 +56,9 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :win)]
-          score_html << "<td class='leftborderme'>" + pick.chef.first_name + "</td>
+          score_html << "<td class='leftborderme'>" +
+                           pick.chef.link_to_page_with_first_name +
+                        "</td>
                          <td>" + pick.points.to_s + "</td>"
 
           # update point totals
@@ -74,7 +76,9 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :loss)]
-          score_html << "<td class='leftborderme'>" + pick.chef.first_name + "</td>
+          score_html << "<td class='leftborderme'>" +
+                           pick.chef.link_to_page_with_first_name +
+                        "</td>
                          <td>" + pick.points.to_s + "</td>"
 
           # update point totals
