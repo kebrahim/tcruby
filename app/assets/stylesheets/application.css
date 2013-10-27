@@ -229,7 +229,17 @@ label {
   width: 250px;
   height: 100px;
 }
-
+.img_175_600 {
+  height: 600px;
+}
+.img_44_28 {
+  width: 44px;
+  height: 28px;
+}
+.img_85_56 {
+  width: 85px;
+  height: 56px;
+}
 
 /* login page */
 .welcome {
@@ -379,4 +389,8 @@ th .desc {
 
 .btn-group {
   margin-bottom: 10px;
+}
+
+.big-img {
+  padding: 10px 0 10px !important;
 }

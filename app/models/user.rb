@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
 
   # returns a link to this user's team page with the specified label
   def link_to_page_with_label(label)
-    return ("<a href='teams/" + self.id.to_s + "'>" + label + "</a>").html_safe
+    return ("<a href='/teams/" + self.id.to_s + "'>" + label + "</a>").html_safe
   end
 
   def link_to_page_with_first_name

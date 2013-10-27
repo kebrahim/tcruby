@@ -22,7 +22,7 @@ module StatsHelper
       total_points = 0
       user.chefs.each { |chef|
         score_html << "<tr>
-                         <td>pic</td><td>" + chef.link_to_page_with_full_name + "</td>"
+                         <td>" + chef.mini_img + "</td><td>" + chef.link_to_page_with_full_name + "</td>"
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|

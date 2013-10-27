@@ -14,9 +14,9 @@
     </div>
     <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %> >
       <thead><tr>
-        <th>Rank</th>
-        <th>Team</th>
-        <th>Total Points</th>
+        <th class='rightborderme'>Rank</th>
+        <th class='rightborderme'>Team</th>
+        <th class='rightborderme'>Total Points</th>
         <th>Chefs Remaining</th>
       </tr></thead>
       <% 
@@ -49,19 +49,22 @@
     <% end %>
     <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %> >
       <thead><tr>
-        <th>Pick</th>
-        <th>Team</th>
-        <th>Chef</th>
-        <th>Win/Loss</th>
+        <th class='rightborderme'>Pick</th>
+        <th class='rightborderme'>Team</th>
+        <th class='rightborderme' colspan=2>Chef</th>
+        <th class='rightborderme'>Win/Loss</th>
         <th>Points</th>
       </tr></thead>
       <% @picks.each { |pick| %>
         <tr>
           <td><%= pick.number.to_s %></td>
-          <td>
-            <a href=<%= "'teams/" + pick.user.id.to_s + "'" %>><%= pick.user.first_name %></a>
-          </td>
-          <td><%= pick.chef.nil? ? "" : pick.chef.link_to_page_with_first_name %></td>
+          <td><%= pick.user.link_to_page_with_first_name %></td>
+          <% if pick.chef %>
+            <td><%= pick.chef.mini_img %></td>
+            <td><%= pick.chef.link_to_page_with_first_name %></td>
+          <% else %>
+            <td colspan=2></td>
+          <% end %>
           <td><%= pick.my_record_string %></td>
           <td><%= pick.points.nil? ? "" : pick.points.to_s %></td>
         </tr>

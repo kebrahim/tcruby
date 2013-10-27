@@ -20,7 +20,7 @@ class Chef < ActiveRecord::Base
 
   # returns a link to this chef's page with the specified label
   def link_to_page_with_label(label)
-    return ("<a href='chefs/" + self.id.to_s + "'>" + label + "</a>").html_safe
+    return ("<a href='/chefs/" + self.id.to_s + "'>" + label + "</a>").html_safe
   end
 
   def link_to_page_with_first_name
@@ -29,5 +29,20 @@ class Chef < ActiveRecord::Base
 
   def link_to_page_with_full_name
     return link_to_page_with_label(self.full_name)
+  end
+
+  def big_img
+    return ("<img class='img_175_600' src='/assets/chefs/big/" + self.abbreviation +
+            ".png'/>").html_safe
+  end
+
+  def small_img
+    return ("<img class='img_85_56' src='/assets/chefs/small/" + self.abbreviation +
+            ".png'/>").html_safe
+  end
+
+  def mini_img
+    return ("<img class='img_44_28' src='/assets/chefs/small/" + self.abbreviation +
+            ".png'/>").html_safe
   end
 end

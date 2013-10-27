@@ -4,19 +4,19 @@
   <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
     <thead><tr>
       <th colspan=2 class='rightborderme'>Chef</th>
-      <th class='rightborderme'>Drafted</th>
-      <th class='rightborderme'>Fantasy Points</th>
-      <th>Week Eliminated</th>
+      <th class='rightborderme'>Draft Rd</th>
+      <th class='rightborderme'>Total Points</th>
+      <th>Week Elim</th>
     </tr></thead>
 
     <% @chefs.each do |chef| %>
       <tr>
-        <td>Pic</td>
+        <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>
         <%
           draft_pick = @chef_id_to_pick_map[chef.id]
         %>
-        <td>Round: <%= draft_pick.round.to_s %>, Pick: <%= draft_pick.pick.to_s %></td>
+        <td><%= draft_pick.round.to_s %></td>
         <td>FPTS</td>
         <td>Wk</td>
       </tr>
@@ -45,7 +45,7 @@
         <% end %>
         
         <% if pick.chef %>
-          <td>pic</td>
+          <td><%= pick.chef.mini_img %></td>
           <td><%= pick.chef.link_to_page_with_first_name %></td>
           <td><%= pick.my_record_string %></td>
           <td><%= pick.points.to_s %></td>

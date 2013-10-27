@@ -12,10 +12,10 @@
 
   <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
     <thead><tr>
-      <th>Pick</th>
-      <th>Team</th>
-      <th colspan=2>Chef</th>
-      <th>Win/Loss</th>
+      <th class='rightborderme'>Pick</th>
+      <th class='rightborderme'>Team</th>
+      <th colspan=2 class='rightborderme'>Chef</th>
+      <th class='rightborderme'>Win/Loss</th>
       <th>Bonus Points</th>
     </tr></thead>
     <% @picks.each { |pick| %>
@@ -26,7 +26,7 @@
           <td class='tdselect' colspan=2><%= chef_selector(@chefs, nil, true, false) %></td>
           <td class='tdselect'><%= record_selector %></td>
         <% else %>
-          <td><%= pick.chef ? "pic" : "" %></td>
+          <td><%= pick.chef ? pick.chef.small_img : "" %></td>
           <td><%= pick.chef ? pick.chef.link_to_page_with_full_name : "" %></td>
           <td><%= pick.my_record_string %></td>
         <% end %>

@@ -17,7 +17,7 @@
 
     <% @chefs.each do |chef| %>
       <tr>
-        <td>Pic</td>
+        <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>
         <td><%= chef.user_string(true).html_safe %></td>
         <td><%= chef_picks(chef) %></td>

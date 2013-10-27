@@ -5,6 +5,10 @@
 </div>
 
 <div class='row-fluid'>
+  <div class='span4 center big-img'>
+    <%= @selected_chef.big_img %>
+  </div>
+
   <div class='span8 center'>
     <h4>Chef Stats</h4>
     <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
@@ -45,9 +49,5 @@
     </table>
 
     <h4>Weekly Picks</h4>
-  </div>
-
-  <div class='span4 center'>
-    <h4>Big Pic</h4>
   </div>
 </div>
