@@ -49,6 +49,14 @@ class ApplicationController < ActionController::Base
     return nil
   end
 
+  def build_chef_id_to_chef_map(chefs)
+    chef_id_to_chef_map = {}
+    chefs.each { |chef|
+      chef_id_to_chef_map[chef.id] = chef
+    }
+    return chef_id_to_chef_map
+  end
+
   def build_chef_id_to_pick_map(picks)
     chef_id_to_pick_map = {}
     picks.each { |pick|
@@ -95,6 +103,18 @@ class ApplicationController < ActionController::Base
     return chef_id_to_stat_map
   end
 
+  # map of chef_id to an array of chefstats
+  def build_chef_id_to_chefstats_map(chefstats)
+    chef_id_to_chefstats_map = {}
+    chefstats.each { |chefstat|
+      if !chef_id_to_chefstats_map.has_key?(chefstat.chef_id)
+        chef_id_to_chefstats_map[chefstat.chef_id] = []
+      end
+      chef_id_to_chefstats_map[chefstat.chef_id] << chefstat
+    }
+    return chef_id_to_chefstats_map
+  end
+
   # map of chef_id to total points scored by that chef
   def build_chef_id_to_points_map(chefstats, stat_id_to_stat_map)
     chef_id_to_points_map = {}
@@ -107,13 +127,21 @@ class ApplicationController < ActionController::Base
     return chef_id_to_points_map
   end
 
+  def get_elimination_stat_id(stats)
+    stats.each { |stat|
+      if stat.abbreviation == Stat::ELIMINATED_ABBR
+        return stat.id
+      end
+    }
+    return nil
+  end
+
   # map of user id to map of total points scored by all the chefs and number of non-eliminated chefs
   # on that user's team
   def build_user_id_to_points_chefs_map(users, chefstats, stats, picks)
     chef_id_to_points_map =
         build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))
-    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[
-        build_stat_abbr_to_stat_map(stats)[Stat::ELIMINATED_ABBR].id]
+    eliminated_chef_ids = build_stat_id_to_chef_ids_map(chefstats)[get_elimination_stat_id(stats)]
     user_id_to_picks_map = build_user_id_to_picks_map(picks)
 
     user_id_to_points_chefs_map = {}

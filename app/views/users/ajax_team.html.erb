@@ -3,22 +3,26 @@
 
   <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
     <thead><tr>
-      <th colspan=2 class='rightborderme'>Chef</th>
       <th class='rightborderme'>Draft Rd</th>
+      <th colspan=2 class='rightborderme'>Chef</th>
       <th class='rightborderme'>Total Points</th>
       <th>Week Elim</th>
     </tr></thead>
 
-    <% @chefs.each do |chef| %>
+    <%
+      @draft_picks.each do |draft_pick|
+        chef = draft_pick.chef
+        elimination_week = week_eliminated(@chef_id_to_chefstats_map[chef.id])
+    %>
       <tr>
+        <td><%= draft_pick.round.to_s %></td>
         <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>
-        <%
-          draft_pick = @chef_id_to_pick_map[chef.id]
-        %>
-        <td><%= draft_pick.round.to_s %></td>
-        <td>FPTS</td>
-        <td>Wk</td>
+        <td><strong>
+          <%= @chef_id_to_points_map.has_key?(chef.id) ?
+              @chef_id_to_points_map[chef.id].to_s : "0" %>
+        </strong></td>
+        <td><%= elimination_week ? elimination_week.to_s : "" %></td>
       </tr>
     <% end %>
   </table>

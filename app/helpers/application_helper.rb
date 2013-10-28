@@ -139,4 +139,15 @@ module ApplicationHelper
     user_chooser_html << "</select>"
     return user_chooser_html.html_safe
   end
+
+  # returns the week when the chef with the specified array of chefstats was eliminated, or nil if
+  # none was found
+  def week_eliminated(chefstats)
+    chefstats.each { |chefstat|
+      if chefstat.stat.abbreviation == Stat::ELIMINATED_ABBR
+        return chefstat.week
+      end
+    }
+    return nil
+  end
 end

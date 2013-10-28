@@ -8,9 +8,18 @@ class ChefsController < ApplicationController
       return
     end
 
+    # load data from db
+    @chefs = Chef.all
+    draft_picks = DraftPick.all
+    chefstats = Chefstat.all
+    stats = Stat.all
+
     # TODO add sorting
-    @chefs = Chef.order(:last_name, :first_name)
-    @chef_id_to_picks_map = build_chef_id_to_picks_map(DraftPick.all)
+    @chef_id_to_picks_map = build_chef_id_to_picks_map(draft_picks)
+    @chef_id_to_points_map =
+        build_chef_id_to_points_map(chefstats, build_stat_id_to_stat_map(stats))
+    @chef_id_to_chef_map = build_chef_id_to_chef_map(@chefs)
+    @chef_id_to_chefstats_map = build_chef_id_to_chefstats_map(chefstats)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,7 +40,7 @@ class ChefsController < ApplicationController
   end
 
   # GET /ajax/chefs/:id
-  def ajax_show
+  def ajax_chef
     @user = current_user
     if @user.nil?
       redirect_to root_url

@@ -186,16 +186,26 @@ class UsersController < ApplicationController
       return
     end
 
+    # load data from db
     @selected_user = User.find(params[:user_id].to_i)
     @chefs = @selected_user.chefs
-    @chef_id_to_pick_map = build_chef_id_to_pick_map(
-        DraftPick.where("chef_id in (?)", @chefs.collect{|chef| chef.id})
-                 .where(user_id: @selected_user.id))
+    chef_ids = @chefs.collect{|chef| chef.id}
+    @draft_picks = DraftPick.includes(:chef)
+                            .where("chef_id in (?)", chef_ids)
+                            .where(user_id: @selected_user.id)
+                            .order(:round)
     @picks = Pick.includes(:chef)
                  .where("chef_id is not null")
                  .where(user_id: @selected_user.id)
                  .order(:week, "record DESC")
+    user_chefstats = Chefstat.where("chef_id in (?)", chef_ids)
+    stats = Stat.all
 
+    # convert data to maps
+    @chef_id_to_points_map =
+        build_chef_id_to_points_map(user_chefstats, build_stat_id_to_stat_map(stats))
+    @chef_id_to_chefstats_map = build_chef_id_to_chefstats_map(user_chefstats)
+    
     render :layout => "ajax"
   end
 end
