@@ -53,6 +53,9 @@ class ChefsController < ApplicationController
                         .order(:week, "stats.stat_type")
     @stattype_week_to_chefstats_map = build_stattype_week_to_chefstats_map(chefstats)
     @max_week = Chefstat.maximum(:week)
+    @picks = Pick.includes(:user)
+                 .where(chef_id: @selected_chef.id)
+                 .order(:week, :number)
 
     render :layout => "ajax"
   end
