@@ -19,7 +19,7 @@
       <th>Bonus Points</th>
     </tr></thead>
     <% @picks.each { |pick| %>
-      <tr>
+      <tr class=<%= "'" + pick.row_class(@user) + "'" %>>
         <td><%= pick.number.to_s %></td>
         <td><%= pick.user.link_to_page_with_full_name %></td>
         <% if @my_pick && pick.id == @current_pick.id %>

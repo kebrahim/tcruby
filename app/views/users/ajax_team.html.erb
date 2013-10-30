@@ -49,10 +49,12 @@
         <% end %>
         
         <% if pick.chef %>
-          <td><%= pick.chef.mini_img %></td>
-          <td><%= pick.chef.link_to_page_with_first_name %></td>
-          <td><%= pick.my_record_string %></td>
-          <td><%= pick.points.to_s %></td>
+          <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.chef.mini_img %></td>
+          <td class=<%= "'" + pick.cell_class + "'" %>>
+            <%= pick.chef.link_to_page_with_first_name %>
+          </td>
+          <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.my_record_string %></td>
+          <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.points.to_s %></td>
         <% else %>
           <td colspan=2></td><td></td><td></td>
         <% end %>

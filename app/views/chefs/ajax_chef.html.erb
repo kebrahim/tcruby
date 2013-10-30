@@ -60,7 +60,7 @@
         </tr></thead>
 
         <% @picks.each { |pick| %>
-          <tr>
+          <tr class=<%= "'" + pick.row_class + "'" %>>
             <td><%= pick.week.to_s %></td>
             <td><%= pick.number.to_s %></td>
             <td><%= pick.user.link_to_page_with_first_name %></td>

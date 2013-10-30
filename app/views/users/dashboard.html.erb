@@ -24,7 +24,7 @@
         last_points = 100000000
       %>
       <% @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points| %>
-        <tr>
+        <tr <%= "class = 'bold-row'" if @user.id == user_points[0] %>>
           <%
             if user_points[1]["points"] < last_points
               rank += 1
@@ -56,7 +56,7 @@
         <th>Points</th>
       </tr></thead>
       <% @picks.each { |pick| %>
-        <tr>
+        <tr class=<%= "'" + pick.row_class(@user) + "'" %>>
           <td><%= pick.number.to_s %></td>
           <td><%= pick.user.link_to_page_with_first_name %></td>
           <% if pick.chef %>

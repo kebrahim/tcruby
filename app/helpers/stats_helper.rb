@@ -22,7 +22,8 @@ module StatsHelper
       total_points = 0
       user.chefs.each { |chef|
         score_html << "<tr>
-                         <td>" + chef.mini_img + "</td><td>" + chef.link_to_page_with_full_name + "</td>"
+                         <td>" + chef.mini_img + "</td>
+                         <td>" + chef.link_to_page_with_full_name + "</td>"
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|
@@ -56,10 +57,10 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :win)]
-          score_html << "<td class='leftborderme'>" +
+          score_html << "<td class='leftborderme" + pick.cell_class + "'>" +
                            pick.chef.link_to_page_with_first_name +
                         "</td>
-                         <td>" + pick.points.to_s + "</td>"
+                         <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
 
           # update point totals
           total_win_bonus_points += pick.points
@@ -76,10 +77,10 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :loss)]
-          score_html << "<td class='leftborderme'>" +
+          score_html << "<td class='leftborderme " + pick.cell_class + "'>" +
                            pick.chef.link_to_page_with_first_name +
                         "</td>
-                         <td>" + pick.points.to_s + "</td>"
+                         <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
 
           # update point totals
           total_loss_bonus_points += pick.points

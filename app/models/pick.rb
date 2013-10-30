@@ -63,4 +63,24 @@ class Pick < ActiveRecord::Base
   def self.user_week_record_id(user_id, week, record)
     return user_id.to_s + ":" + week.to_s + ":" + record.to_s
   end
+
+  def row_class(user = nil)
+    return my_class("row", user)
+  end
+
+  def cell_class(user = nil)
+    return my_class("cell", user)
+  end
+
+  def my_class(suffix, user = nil)
+    my_class = (user && user.id == self.user_id) ? ("bold-" + suffix) : ""
+    if self.points
+      if self.points > 0
+        my_class << (" green-" + suffix)
+      elsif self.points < 0
+        my_class << (" red-" + suffix)
+      end
+    end
+    return my_class
+  end
 end
