@@ -13,8 +13,9 @@
       @draft_picks.each do |draft_pick|
         chef = draft_pick.chef
         elimination_week = week_eliminated(@chef_id_to_chefstats_map[chef.id])
+        chef_class = elimination_week ? "red-row" : ""
     %>
-      <tr>
+      <tr class=<%= "'" + chef_class + "'" %>>
         <td><%= draft_pick.round.to_s %></td>
         <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>

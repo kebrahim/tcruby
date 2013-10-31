@@ -19,8 +19,10 @@
       @chef_id_to_points_map.sort_by { |k,v| v }.reverse.each { |chef_id_points|
         chef = @chef_id_to_chef_map[chef_id_points[0]]
         elimination_week = week_eliminated(@chef_id_to_chefstats_map[chef.id])
+        chef_class = elimination_week ? "red-row" : ""
+        chef_class << " bold-row" if chef.belongs_to_user(@user)
     %>
-      <tr>
+      <tr class=<%= "'" + chef_class + "'" %>>
         <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>
         <td><%= chef.user_string(true).html_safe %></td>

@@ -24,13 +24,21 @@
         total_points = 0
         1.upto(@max_week) { |week|
           if @stattype_week_to_chefstats_map[:quickfire].has_key?(week) ||
-          	 @stattype_week_to_chefstats_map[:elimination].has_key?(week) ||
-          	 @stattype_week_to_chefstats_map[:miscellaneous].has_key?(week)
+          	  @stattype_week_to_chefstats_map[:elimination].has_key?(week) ||
+          	  @stattype_week_to_chefstats_map[:miscellaneous].has_key?(week)
+            qf_class = chefstat_class(@stattype_week_to_chefstats_map[:quickfire][week],
+                Stat::QUICKFIRE_WINNER_ABBR, nil)
+            elim_class = chefstat_class(@stattype_week_to_chefstats_map[:elimination][week],
+                Stat::WINNER_ABBR, Stat::ELIMINATED_ABBR)
       %>
             <tr>
               <td class='rightborderme'><%= week.to_s %></td>
-              <td><%= chefstats_to_report_names(:quickfire, week) %></td>
-              <td><%= chefstats_to_report_names(:elimination, week) %></td>
+              <td class=<%= "'" + qf_class + "'" %>>
+                <%= chefstats_to_report_names(:quickfire, week) %>
+              </td>
+              <td class=<%= "'" + elim_class + "'" %>>
+                <%= chefstats_to_report_names(:elimination, week) %>
+              </td>
               <td class='rightborderme'><%= chefstats_to_report_names(:miscellaneous, week) %></td>
       <%
             points = chefstats_to_points(week)

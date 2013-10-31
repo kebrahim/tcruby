@@ -27,4 +27,17 @@ module ChefsHelper
     }
     return points
   end
+
+  def chefstat_class(chefstats, win_stat_abbr, lose_stat_abbr)
+    if chefstats
+      chefstats.each { |chefstat|
+        if chefstat.stat.abbreviation == win_stat_abbr
+          return "green-cell"
+        elsif chefstat.stat.abbreviation == lose_stat_abbr
+          return "red-cell"
+        end
+      }
+    end
+    return ""
+  end
 end

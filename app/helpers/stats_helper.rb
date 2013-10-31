@@ -21,9 +21,10 @@ module StatsHelper
       weekly_points = {}
       total_points = 0
       user.chefs.each { |chef|
+        stat_class = chef_stat_class(@chef_id_to_stat_id_map[chef.id], @elimination_stat_id)
         score_html << "<tr>
-                         <td>" + chef.mini_img + "</td>
-                         <td>" + chef.link_to_page_with_full_name + "</td>"
+                         <td class='" + stat_class + "'>" + chef.mini_img + "</td>
+                         <td class='" + stat_class + "'>" + chef.link_to_page_with_full_name + "</td>"
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|
@@ -34,8 +35,10 @@ module StatsHelper
                 stat_ids.collect { |stat_id|
                   @stat_id_to_stat_map[stat_id].abbreviation
                 }
-            score_html << "<td class='leftborderme'>" + stat_names.join(",") + "</td>
-                           <td>" + stat_total_points.to_s + "</td>"
+            score_html << "<td class='leftborderme " + stat_class(stat_names) + "'>" +
+                             stat_names.join(",") + "</td>
+                           <td class='" + stat_class(stat_names) + "'>" +
+                             stat_total_points.to_s + "</td>"
 
           	chef_points += stat_total_points
             if !weekly_points.has_key?(week)
@@ -113,5 +116,23 @@ module StatsHelper
       total += @stat_id_to_stat_map[stat_id].points
     }
     return total
+  end
+
+  def stat_class(stat_names)
+    if stat_names.include?(Stat::WINNER_ABBR)
+      return "green-cell"
+    elsif stat_names.include?(Stat::ELIMINATED_ABBR)
+      return "red-cell"
+    end
+    return ""
+  end
+
+  def chef_stat_class(week_to_stat_ids, elimination_stat_id)
+    if week_to_stat_ids
+      week_to_stat_ids.each { |week, stat_ids|
+        return "red-cell" if stat_ids.include?(elimination_stat_id)
+      }
+    end
+    return ""
   end
 end

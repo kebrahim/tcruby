@@ -18,6 +18,10 @@ class Chef < ActiveRecord::Base
     }.join(", ")
   end
 
+  def belongs_to_user(user)
+    return self.users.include?(user)
+  end
+
   # returns a link to this chef's page with the specified label
   def link_to_page_with_label(label)
     return ("<a href='/chefs/" + self.id.to_s + "'>" + label + "</a>").html_safe
