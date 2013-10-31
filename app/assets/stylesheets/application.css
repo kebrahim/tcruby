@@ -151,6 +151,9 @@ table th {background-color: black; color:white;}
 .table .bold-row td {
   font-weight: bold;
 }
+.table td.bold-cell {
+  font-weight: bold;
+}
 .table tr.topborderme td {
   border-top: thin solid black;
 }

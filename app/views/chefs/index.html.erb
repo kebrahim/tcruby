@@ -9,8 +9,8 @@
     <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
       <thead><tr>
         <th colspan=2 class='rightborderme'>Chef</th>
-        <th class='rightborderme'>Teams</th>
-        <th class='rightborderme'>Drafted</th>
+        <th colspan=2 class='rightborderme'>Po-Boy Draft</th>
+        <th colspan=2 class='rightborderme'>Beignet Draft</th>
         <th class='rightborderme'>Fantasy Points</th>
         <th>Week Eliminated</th>
       </tr></thead>
@@ -25,8 +25,10 @@
       <tr class=<%= "'" + chef_class + "'" %>>
         <td><%= chef.small_img %></td>
         <td><%= chef.link_to_page_with_full_name %></td>
-        <td><%= chef.user_string(true).html_safe %></td>
-        <td><%= chef_picks(chef) %></td>
+        <td><%= chef_user(chef, :poboy).link_to_page_with_first_name %></td>
+        <td><%= chef_pick(chef, :poboy) %></td>
+        <td><%= chef_user(chef, :beignet).link_to_page_with_first_name %></td>
+        <td><%= chef_pick(chef, :beignet) %></td>
         <td><%= chef_id_points[1].to_s %></td>
         <td><%= elimination_week ? elimination_week.to_s : "" %></td>
       </tr>

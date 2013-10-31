@@ -1,11 +1,21 @@
 module ChefsHelper
 
-  def chef_picks(chef)
-    picks_html = ""
-    picks_html << @chef_id_to_picks_map[chef.id].collect { |pick|
-      "Round: " + pick.round.to_s + ", Pick: " + pick.pick.to_s
-    }.join(", ")
-    return picks_html.html_safe
+  def chef_pick(chef, league)
+    @chef_id_to_picks_map[chef.id].each { |draft_pick|
+      if draft_pick.league.to_s == league.to_s
+        return "Rd: " + draft_pick.round.to_s + ", Pk: " + draft_pick.pick.to_s
+      end
+    }
+    return nil
+  end
+
+  def chef_user(chef, league)
+    @chef_id_to_picks_map[chef.id].each { |draft_pick|
+      if draft_pick.league.to_s == league.to_s
+        return draft_pick.user
+      end
+    }
+    return nil
   end
 
   def chefstats_to_report_names(stat_type, week)

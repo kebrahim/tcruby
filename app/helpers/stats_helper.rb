@@ -14,7 +14,7 @@ module StatsHelper
           score_html << "<th colspan=2 class='leftborderme'>Week " + week.to_s + "</th>"
         }
       end
-      score_html << "    <th class='leftborderme'>Total Points</th>
+      score_html << "    <th class='leftborderme'>Total</th>
                        </tr></thead>"
        
       # chefs
@@ -48,7 +48,7 @@ module StatsHelper
             total_points += stat_total_points
           }
         end
-        score_html << "  <td class='leftborderme'>" + chef_points.to_s + "</td>
+        score_html << "  <td class='leftborderme bold-cell'>" + chef_points.to_s + "</td>
                        </tr>"
       }
      
@@ -71,7 +71,7 @@ module StatsHelper
           total_points += pick.points
         }
       end
-      score_html << "  <td class='leftborderme'>" + total_win_bonus_points.to_s + "</td>
+      score_html << "  <td class='leftborderme bold-cell'>" + total_win_bonus_points.to_s + "</td>
                      </tr>
                      <tr>
                        <td colspan=2>Losing Chef Bonus</td>"
@@ -91,11 +91,11 @@ module StatsHelper
           total_points += pick.points
         }
       end
-      score_html << "  <td class='leftborderme'>" + total_loss_bonus_points.to_s + "</td>
+      score_html << "  <td class='leftborderme bold-cell'>" + total_loss_bonus_points.to_s + "</td>
                      </tr>"
 
       # totals
-      score_html << "<tr class='topborderme'><td colspan=2>Total</td>"
+      score_html << "<tr class='topborderme bold-row'><td colspan=2>Total</td>"
       if @max_week
         1.upto(@max_week) { |week|
           score_html << "<td colspan=2 class='leftborderme'>" + weekly_points[week].to_s + "</td>"
