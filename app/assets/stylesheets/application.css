@@ -397,3 +397,11 @@ th .desc {
 .big-img {
   padding: 10px 0 10px !important;
 }
+
+/* modals */
+.modal.fade.in {
+  top: 5% !important;
+}
+.modal-body {
+  max-height: 650px !important;
+}

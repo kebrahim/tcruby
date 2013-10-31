@@ -14,7 +14,8 @@ module StatsHelper
       score_html << user.link_to_page_with_full_name + " (" + user_points[1]["points"].to_s + ")"
       score_html << "</h5>"
       score_html << "<div id='user-collapse" + user.id.to_s + "' 
-                          class='collapse user-collapse in'>"
+                          class='collapse user-collapse " +
+                              (@user.id == user.id ? "in" : "out") + "'>"
       score_html << "<table class='" + ApplicationHelper::TABLE_SMALL_CLASS + "'>
                        <thead><tr>
                          <th colspan=2>Chef</th>"
