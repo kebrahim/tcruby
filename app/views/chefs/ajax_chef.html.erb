@@ -67,8 +67,12 @@
           <th>Bonus Points</th>
         </tr></thead>
 
-        <% @picks.each { |pick| %>
-          <tr class=<%= "'" + pick.row_class + "'" %>>
+        <%
+          @picks.each { |pick|
+            pick_class = pick.row_class
+            pick_class << " bold-row" if pick.user_id == @user.id
+        %>
+          <tr class=<%= "'" + pick_class + "'" %>>
             <td><%= pick.week.to_s %></td>
             <td><%= pick.number.to_s %></td>
             <td><%= pick.user.link_to_page_with_first_name %></td>

@@ -9,6 +9,12 @@
 <div class='row-fluid'>
   <div class='span8 center'>
     <h4>Scoring Breakdown</h4>
+    <button id='expandBtn' type='button' class='btn btn-link'>
+      (expand all)
+    </button>
+    <button id='collapseBtn' type='button' class='btn btn-link'>
+      (collapse all)
+    </button>
     <%= score_breakdown_tables %>
   </div>
 
@@ -31,3 +37,20 @@
     </table>
   </div>
 </div>
+
+<script>
+$('#expandBtn').click(function(){ 
+  for (var i = 0; i < $('.user-collapse').length; i++) {
+      if (!$($('.user-collapse')[i]).hasClass('in')) {
+          $($('.user-collapse')[i]).collapse('show')
+      }
+  }
+});
+$('#collapseBtn').click(function(){ 
+  for (var i = 0; i < $('.user-collapse').length; i++) {
+      if ($($('.user-collapse')[i]).hasClass('in')) {
+          $($('.user-collapse')[i]).collapse('hide')
+      }
+  }
+});
+</script>

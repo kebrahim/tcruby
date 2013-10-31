@@ -4,8 +4,17 @@ module StatsHelper
     score_html = ""
     @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points|
       user = @user_id_to_users_map[user_points[0]]
-      score_html << "<h5>" + user.link_to_page_with_full_name + " (" + 
-          user_points[1]["points"].to_s + ")</h5>"
+      score_html << "<h5>"
+      # TDOO replace with expand/collapse buttons
+      score_html << "<button type='button' class='btn btn-link btn-link-black'
+                             data-toggle='collapse'
+                             data-target='#user-collapse" + user.id.to_s + "'>
+                       +
+                     </button>"
+      score_html << user.link_to_page_with_full_name + " (" + user_points[1]["points"].to_s + ")"
+      score_html << "</h5>"
+      score_html << "<div id='user-collapse" + user.id.to_s + "' 
+                          class='collapse user-collapse in'>"
       score_html << "<table class='" + ApplicationHelper::TABLE_SMALL_CLASS + "'>
                        <thead><tr>
                          <th colspan=2>Chef</th>"
@@ -24,7 +33,8 @@ module StatsHelper
         stat_class = chef_stat_class(@chef_id_to_stat_id_map[chef.id], @elimination_stat_id)
         score_html << "<tr>
                          <td class='" + stat_class + "'>" + chef.mini_img + "</td>
-                         <td class='" + stat_class + "'>" + chef.link_to_page_with_full_name + "</td>"
+                         <td class='" + stat_class + "'>" + chef.link_to_page_with_full_name +
+                         "</td>"
         chef_points = 0
         if @max_week
           1.upto(@max_week) { |week|
@@ -103,7 +113,8 @@ module StatsHelper
       end
       score_html << "    <td class='leftborderme'>" + total_points.to_s + "</td>
                        </tr>
-                     </table>"
+                     </table>
+                   </div>"
     }
     return score_html.html_safe
   end
