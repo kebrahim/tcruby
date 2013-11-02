@@ -9,6 +9,7 @@ class Stat < ActiveRecord::Base
   has_many :chefs, :through => :chefstats
 
   WINNER_ABBR = "W"
+  TEAM_WINNER_ABBR = "Wt"
   ELIMINATED_ABBR = "E"
   QUICKFIRE_WINNER_ABBR = "Qi"
 

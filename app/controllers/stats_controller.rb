@@ -104,6 +104,7 @@ class StatsController < ApplicationController
       Chefstat.transaction do
         begin
           winning_chef_ids = []
+          team_winning_chef_ids = []
           eliminated_chef_ids = []
           stats.each { |stat|
             selected_chef_ids = params[stat.abbreviation].nil? ? [] :
@@ -129,13 +130,15 @@ class StatsController < ApplicationController
             # save winner/eliminated chef ids
             if (stat.abbreviation == Stat::WINNER_ABBR)
               winning_chef_ids = selected_chef_ids
+            elsif (stat.abbreviation == Stat::TEAM_WINNER_ABBR)
+              team_winning_chef_ids = selected_chef_ids
             elsif (stat.abbreviation == Stat::ELIMINATED_ABBR)
               eliminated_chef_ids = selected_chef_ids
             end
           }
 
           # update picks
-          update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
+          update_pick_scores(picks, winning_chef_ids, team_winning_chef_ids, eliminated_chef_ids)
 
           confirmation_message = "Successfully updated scores!"
         rescue Exception => e
@@ -186,13 +189,23 @@ class StatsController < ApplicationController
     pick.save
   end
 
-  def update_pick_scores(picks, winning_chef_ids, eliminated_chef_ids)
+  def update_pick_scores(picks, winning_chef_ids, team_winning_chef_ids, eliminated_chef_ids)
     picks.each { |pick|
-      expected_pick_points = (pick.record.to_s == :win.to_s) ?
-          get_expected_pick_points(pick, winning_chef_ids, eliminated_chef_ids) :
-          get_expected_pick_points(pick, eliminated_chef_ids, winning_chef_ids)
+      winner_chef_ids = winning_chef_ids.empty? ? team_winning_chef_ids : winning_chef_ids
+      expected_pick_points = 0
+      if (pick.record.to_s == :win.to_s)
+        expected_pick_points = get_expected_pick_points(pick, winner_chef_ids, eliminated_chef_ids)
+        
+        # if a team win occurred, cut the winning bonus points in half
+        if winning_chef_ids.empty? && !team_winning_chef_ids.empty? && expected_pick_points > 0
+          expected_pick_points = (expected_pick_points / 2.0).ceil
+        end
+      else
+        expected_pick_points = get_expected_pick_points(pick, eliminated_chef_ids, winner_chef_ids)
+      end
+
+      # if pick doesn't have correct score, update it!
       if expected_pick_points != pick.points
-        # pick doesn't have correct score; update it!
         pick.update_attribute(:points, expected_pick_points)
       end
     }
