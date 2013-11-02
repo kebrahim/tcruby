@@ -12,6 +12,7 @@ class Stat < ActiveRecord::Base
   TEAM_WINNER_ABBR = "Wt"
   ELIMINATED_ABBR = "E"
   QUICKFIRE_WINNER_ABBR = "Qi"
+  QUICKFIRE_TEAM_WINNER_ABBR = "Qt"
 
   ALL_TYPES_ARRAY = [:quickfire, :elimination, :miscellaneous]
 

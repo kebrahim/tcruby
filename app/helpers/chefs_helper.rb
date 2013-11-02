@@ -38,10 +38,10 @@ module ChefsHelper
     return points
   end
 
-  def chefstat_class(chefstats, win_stat_abbr, lose_stat_abbr)
+  def chefstat_class(chefstats, win_stat_abbreviations, lose_stat_abbr)
     if chefstats
       chefstats.each { |chefstat|
-        if chefstat.stat.abbreviation == win_stat_abbr
+        if win_stat_abbreviations.include?(chefstat.stat.abbreviation)
           return "green-cell"
         elsif chefstat.stat.abbreviation == lose_stat_abbr
           return "red-cell"

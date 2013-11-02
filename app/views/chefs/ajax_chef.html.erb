@@ -27,9 +27,9 @@
           	  @stattype_week_to_chefstats_map[:elimination].has_key?(week) ||
           	  @stattype_week_to_chefstats_map[:miscellaneous].has_key?(week)
             qf_class = chefstat_class(@stattype_week_to_chefstats_map[:quickfire][week],
-                Stat::QUICKFIRE_WINNER_ABBR, nil)
+                [Stat::QUICKFIRE_WINNER_ABBR, Stat::QUICKFIRE_TEAM_WINNER_ABBR], nil)
             elim_class = chefstat_class(@stattype_week_to_chefstats_map[:elimination][week],
-                Stat::WINNER_ABBR, Stat::ELIMINATED_ABBR)
+                [Stat::WINNER_ABBR, Stat::TEAM_WINNER_ABBR], Stat::ELIMINATED_ABBR)
       %>
             <tr>
               <td class='rightborderme'><%= week.to_s %></td>

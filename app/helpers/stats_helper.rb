@@ -132,7 +132,7 @@ module StatsHelper
   end
 
   def stat_class(stat_names)
-    if stat_names.include?(Stat::WINNER_ABBR)
+    if stat_names.include?(Stat::WINNER_ABBR) || stat_names.include?(Stat::TEAM_WINNER_ABBR)
       return "green-cell"
     elsif stat_names.include?(Stat::ELIMINATED_ABBR)
       return "red-cell"
