@@ -45,18 +45,25 @@
 
 $('#expandBtn').click(function(){ 
   for (var i = 0; i < $('.user-collapse').length; i++) {
-      if (!$($('.user-collapse')[i]).hasClass('in')) {
-          $($('.user-collapse')[i]).collapse('show')
-      }
+    if (!$($('.user-collapse')[i]).hasClass('in')) {
+      $($('.user-collapse')[i]).collapse('show')
+      $($('.collapse-btn')[i])[0].innerHTML = "-"
+    }
   }
 });
 
 $('#collapseBtn').click(function(){ 
   for (var i = 0; i < $('.user-collapse').length; i++) {
-      if ($($('.user-collapse')[i]).hasClass('in')) {
-          $($('.user-collapse')[i]).collapse('hide')
-      }
+    if ($($('.user-collapse')[i]).hasClass('in')) {
+      $($('.user-collapse')[i]).collapse('hide')
+      $($('.collapse-btn')[i])[0].innerHTML = "+"
+    }
   }
+});
+
+$('.collapse-btn').click(function(){ 
+  // TODO use icon instead of +/-
+  this.innerHTML = (this.innerHTML.trim() == "+") ? "-" : "+"
 });
 
 $('#legendBtn').click(function(){

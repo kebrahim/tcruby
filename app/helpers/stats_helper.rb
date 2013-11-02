@@ -6,10 +6,11 @@ module StatsHelper
       user = @user_id_to_users_map[user_points[0]]
       score_html << "<h5>"
       # TDOO replace with expand/collapse buttons
-      score_html << "<button type='button' class='btn btn-link btn-link-black'
+      score_html << "<button type='button'
+                             class='btn btn-link btn-link-black collapse-btn'
                              data-toggle='collapse'
                              data-target='#user-collapse" + user.id.to_s + "'>
-                       +
+                       " + (@user.id == user.id ? "-" : "+") + "
                      </button>"
       score_html << user.link_to_page_with_full_name + " (" + user_points[1]["points"].to_s + ")"
       score_html << "</h5>"
