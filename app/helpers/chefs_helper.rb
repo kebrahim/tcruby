@@ -3,7 +3,7 @@ module ChefsHelper
   def chef_pick(chef, league)
     @all_draft_picks.each { |draft_pick|
       if draft_pick.league.to_s == league.to_s && draft_pick.chef_id == chef.id
-        return "Rd: " + draft_pick.round.to_s + ", Pk: " + draft_pick.pick.to_s
+        return draft_pick
       end
     }
     return nil
@@ -53,13 +53,24 @@ module ChefsHelper
 
   def chef_table
     chef_table = "<table class='" + ApplicationHelper::TABLE_CLASS + "'>
-      <thead><tr>
-        <th colspan=2 class='rightborderme'>" + sortable(:chef.to_s, "Chef") + "</th>
-        <th colspan=2 class='rightborderme'>" + sortable(:poboy.to_s, "Po-Boy Draft") + "</th>
-        <th colspan=2 class='rightborderme'>" + sortable(:beignet.to_s, "Beignet Draft") + "</th>
-        <th class='rightborderme'>" + sortable(:fantasy_points.to_s, "Fantasy Points") + "</th>
-        <th>" + sortable(:week.to_s, "Week Eliminated") + "</th>
-      </tr></thead>"
+      <thead>
+        <tr>
+          <th rowspan=2 colspan=2 class='rightborderme'>" + sortable(:chef.to_s, "Chef") + "</th>
+          <th colspan=3 class='rightborderme'>" + sortable(:poboy.to_s, "Po-Boy Draft") + "</th>
+          <th colspan=3 class='rightborderme'>" + sortable(:beignet.to_s, "Beignet Draft") + "</th>
+          <th rowspan=2 class='rightborderme'>" + sortable(:fantasy_points.to_s, "Fantasy Points") +
+         "</th>
+          <th rowspan=2>" + sortable(:week.to_s, "Week Eliminated") + "</th>
+        </tr>
+        <tr>
+          <th class='rightborderme'>Team</th>
+          <th class='rightborderme'>Round</th>
+          <th class='rightborderme'>Pick</th>
+          <th class='rightborderme'>Team</th>
+          <th class='rightborderme'>Round</th>
+          <th class='rightborderme'>Pick</th>
+        </tr>
+      </thead>"
 
     case @sort_column.to_s
       when :chef.to_s, :poboy.to_s, :beignet.to_s
@@ -92,11 +103,14 @@ module ChefsHelper
 
     chef_row = "<tr class='" + chef_class + "'>
         <td>" + chef.small_img + "</td>
-        <td>" + chef.link_to_page_with_full_name + "</td>
-        <td>" + chef_user(chef, :poboy).link_to_page_with_first_name + "</td>
-        <td>" + chef_pick(chef, :poboy) + "</td>
-        <td>" + chef_user(chef, :beignet).link_to_page_with_first_name + "</td>
-        <td>" + chef_pick(chef, :beignet) + "</td>
+        <td>" + chef.link_to_page_with_full_name + "</td>"
+    [:poboy, :beignet].each { |league|
+      chef_row << "
+        <td>" + chef_user(chef, league).link_to_page_with_first_name + "</td>
+        <td>" + chef_pick(chef, league).round.to_s + "</td>
+        <td>" + chef_pick(chef, league).pick.to_s + "</td>"
+    }
+    chef_row << "
         <td>" + chef_points.to_s + "</td>
         <td>" + (elimination_week && elimination_week > 0 ? elimination_week.to_s : "") + "</td>
       </tr>"
