@@ -76,9 +76,9 @@ class Pick < ActiveRecord::Base
     my_class = (user && user.id == self.user_id) ? ("bold-" + suffix) : ""
     if self.points
       if self.points > 0
-        my_class << (" green-" + suffix)
+        my_class << " green-" + suffix
       elsif self.points < 0
-        my_class << (" red-" + suffix)
+        my_class << " red-" + suffix
       end
     end
     return my_class

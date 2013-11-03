@@ -158,4 +158,17 @@ module ApplicationHelper
     direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
     link_to title, {:sort => column, :direction => direction}, {:class => css_class}
   end
+
+  def chefstat_class(chefstats, win_stat_abbreviations, lose_stat_abbr)
+    if chefstats
+      chefstats.each { |chefstat|
+        if win_stat_abbreviations.include?(chefstat.stat.abbreviation)
+          return "green-cell"
+        elsif chefstat.stat.abbreviation == lose_stat_abbr
+          return "red-cell"
+        end
+      }
+    end
+    return ""
+  end
 end

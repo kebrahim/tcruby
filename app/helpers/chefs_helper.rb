@@ -38,19 +38,6 @@ module ChefsHelper
     return points
   end
 
-  def chefstat_class(chefstats, win_stat_abbreviations, lose_stat_abbr)
-    if chefstats
-      chefstats.each { |chefstat|
-        if win_stat_abbreviations.include?(chefstat.stat.abbreviation)
-          return "green-cell"
-        elsif chefstat.stat.abbreviation == lose_stat_abbr
-          return "red-cell"
-        end
-      }
-    end
-    return ""
-  end
-
   def chef_table
     chef_table = "<table class='" + ApplicationHelper::TABLE_CLASS + "'>
       <thead>

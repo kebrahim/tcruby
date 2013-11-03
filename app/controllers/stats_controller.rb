@@ -28,6 +28,39 @@ class StatsController < ApplicationController
     @user_week_record_to_picks_map = build_user_week_record_to_pick_map(picks)
   end
 
+  # GET /scoreboard/week/:number
+  def scoreboard_week
+    @user = current_user
+    if @user.nil?
+      redirect_to root_url
+      return
+    end
+
+    @max_week = Chefstat.maximum(:week)
+    @selected_week = params[:number].to_i
+  end
+
+  # GET /ajax/scoreboard/week/:number
+  def ajax_scoreboard_week
+    @user = current_user
+    if @user.nil?
+      redirect_to root_url
+      return
+    end
+
+    @selected_week = params[:number].to_i
+
+    @chefs = Chef.includes(:chefstats, :stats)
+                 .where("chefstats.week = " + @selected_week.to_s)
+                 .order(:first_name, :last_name, "stats.abbreviation")    
+    @picks = Pick.includes(:user, :chef)
+                 .where(week: @selected_week)
+                 .where("points != 0")
+                 .order(:number)
+
+    render :layout => "ajax"
+  end
+
   # GET /scores
   def scores
     @user = current_user

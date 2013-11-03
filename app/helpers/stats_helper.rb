@@ -22,7 +22,9 @@ module StatsHelper
                          <th colspan=2>Chef</th>"
       if @max_week
         1.upto(@max_week) { |week|
-          score_html << "<th colspan=2 class='leftborderme'>Week " + week.to_s + "</th>"
+          score_html << "<th colspan=2 class='leftborderme'>
+                           <a href='/scoreboard/week/" + week.to_s + "'>Week " + week.to_s + "</a>
+                         </th>"
         }
       end
       score_html << "    <th class='leftborderme'>Total</th>

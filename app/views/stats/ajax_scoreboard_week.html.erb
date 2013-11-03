@@ -1,0 +1,62 @@
+<h3>Week <%= @selected_week.to_s %> Results</h3>
+
+<h4>Chef Scoring Breakdown</h4>
+<table class=<%= "'" + ApplicationHelper::TABLE_SMALL_CLASS + "'" %>>
+  <thead><tr>
+    <th colspan=2 class='rightborderme'>Chef</th>
+    <th class='rightborderme'>Owners</th>
+    <th class='rightborderme'>QuickFire</th>
+    <th class='rightborderme'>Elimination</th>
+    <th class='rightborderme'>Miscellaneous</th>
+    <th>Points</th>
+  </tr></thead>
+  <%
+    @chefs.each { |chef|
+      chef_class = chef.belongs_to_user(@user) ? "bold-row" : ""
+  %>
+    <tr class=<%= "'" + chef_class + "'" %>>
+      <td><%= chef.mini_img %></td>
+      <td><%= chef.link_to_page_with_full_name %></td>
+      <td><%= chef.user_string(true).html_safe %></td>
+      <%
+        chefstat_names = {}
+        Stat::ALL_TYPES_ARRAY.each { |stat_type|
+          chefstat_names[stat_type] = []
+        }
+        chef_points = 0
+        chef.chefstats.each { |chefstat|
+          chefstat_names[chefstat.stat.my_stat_type] << chefstat.stat.report_name
+          chef_points += chefstat.stat.points
+        }
+        qf_class = chefstat_class(chef.chefstats,
+            [Stat::QUICKFIRE_WINNER_ABBR, Stat::QUICKFIRE_TEAM_WINNER_ABBR], nil)
+        elim_class = chefstat_class(chef.chefstats,
+            [Stat::WINNER_ABBR, Stat::TEAM_WINNER_ABBR], Stat::ELIMINATED_ABBR)
+      %>
+      <td class=<%= "'" + qf_class + "'" %>><%= chefstat_names[:quickfire].join(",") %></td>
+      <td class=<%= "'" + elim_class + "'" %>><%= chefstat_names[:elimination].join(",") %></td>
+      <td><%= chefstat_names[:miscellaneous].join(",") %></td>
+      <td><%= chef_points.to_s %></td>
+    </tr>
+  <% } %>
+</table>
+
+<h4>Picks Bonus</h4>
+<table class=<%= "'" + ApplicationHelper::TABLE_SMALL_CLASS + "'" %>>
+  <thead><tr>
+    <th class='rightborderme'>Pick</th>
+    <th class='rightborderme'>Team</th>
+    <th class='rightborderme'>Chef</th>
+    <th class='rightborderme'>Win/Loss</th>
+    <th>Points</th>
+  </tr></thead>
+  <% @picks.each { |pick| %>
+    <tr class=<%= "'" + pick.row_class(@user) + "'" %>>
+      <td><%= pick.number.to_s %></td>
+      <td><%= pick.user.link_to_page_with_full_name %></td>
+      <td><%= pick.chef.link_to_page_with_full_name %></td>
+      <td><%= pick.my_record_string %></td>
+      <td><%= pick.points.to_s %></td>
+    </tr>
+  <% } %>
+</table>
