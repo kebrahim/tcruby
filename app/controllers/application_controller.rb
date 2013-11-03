@@ -115,6 +115,19 @@ class ApplicationController < ActionController::Base
     return chef_id_to_chefstats_map
   end
 
+  # map of chef_id to the week they were eliminated
+  def build_chef_id_to_elimweek_map(chefstats)
+    chef_id_to_elimweek_map = {}
+    chefstats.each { |chefstat|
+      if chefstat.stat.abbreviation == Stat::ELIMINATED_ABBR
+        chef_id_to_elimweek_map[chefstat.chef_id] = chefstat.week
+      elsif !chef_id_to_elimweek_map.has_key?(chefstat.chef_id)
+        chef_id_to_elimweek_map[chefstat.chef_id] = 0
+      end
+    }
+    return chef_id_to_elimweek_map
+  end
+
   # map of chef_id to total points scored by that chef
   def build_chef_id_to_points_map(chefstats, stat_id_to_stat_map)
     chef_id_to_points_map = {}

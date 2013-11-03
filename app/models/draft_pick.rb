@@ -6,4 +6,8 @@ class DraftPick < ActiveRecord::Base
   attr_accessible :league, :pick, :round
 
   enumerize :league, in: [:poboy, :beignet]
+
+  SORTABLE_COLUMNS = [:chef, :poboy, :beignet, :fantasy_points, :week].collect { |column|
+  	  column.to_s
+  }
 end

@@ -5,54 +5,7 @@
   <div class='span12 center'>
 
     <h3>The Chefs</h3>
-
-    <table class=<%= "'" + ApplicationHelper::TABLE_CLASS + "'" %>>
-      <thead><tr>
-        <th colspan=2 class='rightborderme'>Chef</th>
-        <th colspan=2 class='rightborderme'>Po-Boy Draft</th>
-        <th colspan=2 class='rightborderme'>Beignet Draft</th>
-        <th class='rightborderme'>Fantasy Points</th>
-        <th>Week Eliminated</th>
-      </tr></thead>
-
-    <%
-      @chef_id_to_points_map.sort_by { |k,v| v }.reverse.each { |chef_id_points|
-        chef = @chef_id_to_chef_map[chef_id_points[0]]
-        elimination_week = week_eliminated(@chef_id_to_chefstats_map[chef.id])
-        chef_class = elimination_week ? "red-row" : ""
-        chef_class << " bold-row" if chef.belongs_to_user(@user)
-    %>
-      <tr class=<%= "'" + chef_class + "'" %>>
-        <td><%= chef.small_img %></td>
-        <td><%= chef.link_to_page_with_full_name %></td>
-        <td><%= chef_user(chef, :poboy).link_to_page_with_first_name %></td>
-        <td><%= chef_pick(chef, :poboy) %></td>
-        <td><%= chef_user(chef, :beignet).link_to_page_with_first_name %></td>
-        <td><%= chef_pick(chef, :beignet) %></td>
-        <td><%= chef_id_points[1].to_s %></td>
-        <td><%= elimination_week ? elimination_week.to_s : "" %></td>
-      </tr>
-    <% } %>
-
-    <%
-      # show chefs w/out any stats
-      @chefs.each { |chef| 
-        if !@chef_id_to_points_map.has_key?(chef.id)
-          elimination_week = week_eliminated(@chef_id_to_chefstats_map[chef.id])
-    %>
-      <tr>
-        <td><%= chef.small_img %></td>
-        <td><%= chef.link_to_page_with_full_name %></td>
-        <td><%= chef.user_string(true).html_safe %></td>
-        <td><%= chef_picks(chef) %></td>
-        <td>0</td>
-        <td><%= elimination_week ? elimination_week.to_s : "" %></td>
-      </tr>
-    <%
-        end
-      }
-    %>
-    </table>
+    <%= chef_table %>
 
   </div>
 </div>
