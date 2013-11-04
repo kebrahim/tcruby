@@ -90,15 +90,15 @@ module ChefsHelper
 
     chef_row = "<tr class='" + chef_class + "'>
         <td>" + chef.small_img + "</td>
-        <td>" + chef.link_to_page_with_full_name + "</td>"
+        <td class='rightborderme'>" + chef.link_to_page_with_full_name + "</td>"
     [:poboy, :beignet].each { |league|
       chef_row << "
         <td>" + chef_user(chef, league).link_to_page_with_first_name + "</td>
         <td>" + chef_pick(chef, league).round.to_s + "</td>
-        <td>" + chef_pick(chef, league).pick.to_s + "</td>"
+        <td class='rightborderme'>" + chef_pick(chef, league).pick.to_s + "</td>"
     }
     chef_row << "
-        <td>" + chef_points.to_s + "</td>
+        <td class='rightborderme'>" + chef_points.to_s + "</td>
         <td>" + (elimination_week && elimination_week > 0 ? elimination_week.to_s : "") + "</td>
       </tr>"
     return chef_row

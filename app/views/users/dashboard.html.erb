@@ -31,9 +31,9 @@
               last_points = user_points[1]["points"]
             end
           %>
-          <td><%= rank.to_s %></td>
-          <td><%= @user_id_to_users_map[user_points[0]].link_to_page_with_full_name %></td>
-          <td><%= user_points[1]["points"].to_s %></td>
+          <td class='rightborderme'><%= rank.to_s %></td>
+          <td class='rightborderme'><%= @user_id_to_users_map[user_points[0]].link_to_page_with_full_name %></td>
+          <td class='rightborderme'><%= user_points[1]["points"].to_s %></td>
           <td><%= user_points[1]["numchefs"].to_s %></td>
         </tr>
       <% } %>
@@ -57,15 +57,15 @@
       </tr></thead>
       <% @picks.each { |pick| %>
         <tr class=<%= "'" + pick.row_class(@user) + "'" %>>
-          <td><%= pick.number.to_s %></td>
-          <td><%= pick.user.link_to_page_with_first_name %></td>
+          <td class='rightborderme'><%= pick.number.to_s %></td>
+          <td class='rightborderme'><%= pick.user.link_to_page_with_first_name %></td>
           <% if pick.chef %>
             <td><%= pick.chef.mini_img %></td>
-            <td><%= pick.chef.link_to_page_with_first_name %></td>
+            <td class='rightborderme'><%= pick.chef.link_to_page_with_first_name %></td>
           <% else %>
-            <td colspan=2></td>
+            <td colspan=2 class='rightborderme'></td>
           <% end %>
-          <td><%= pick.my_record_string %></td>
+          <td class='rightborderme'><%= pick.my_record_string %></td>
           <td><%= pick.points.nil? ? "" : pick.points.to_s %></td>
         </tr>
       <% } %>

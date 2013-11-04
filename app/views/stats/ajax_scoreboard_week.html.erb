@@ -1,4 +1,4 @@
-<h3>Week <%= @selected_week.to_s %> Results</h3>
+<h3>Week <%= @selected_week.to_s %> Scoring Results</h3>
 
 <h4>Chef Scoring Breakdown</h4>
 <table class=<%= "'" + ApplicationHelper::TABLE_SMALL_CLASS + "'" %>>
@@ -16,8 +16,8 @@
   %>
     <tr class=<%= "'" + chef_class + "'" %>>
       <td><%= chef.mini_img %></td>
-      <td><%= chef.link_to_page_with_full_name %></td>
-      <td><%= chef.user_string(true).html_safe %></td>
+      <td class='rightborderme'><%= chef.link_to_page_with_full_name %></td>
+      <td class='rightborderme'><%= chef.user_string(true).html_safe %></td>
       <%
         chefstat_names = {}
         Stat::ALL_TYPES_ARRAY.each { |stat_type|
@@ -35,7 +35,7 @@
       %>
       <td class=<%= "'" + qf_class + "'" %>><%= chefstat_names[:quickfire].join(",") %></td>
       <td class=<%= "'" + elim_class + "'" %>><%= chefstat_names[:elimination].join(",") %></td>
-      <td><%= chefstat_names[:miscellaneous].join(",") %></td>
+      <td class='rightborderme'><%= chefstat_names[:miscellaneous].join(",") %></td>
       <td><%= chef_points.to_s %></td>
     </tr>
   <% } %>
@@ -46,16 +46,17 @@
   <thead><tr>
     <th class='rightborderme'>Pick</th>
     <th class='rightborderme'>Team</th>
-    <th class='rightborderme'>Chef</th>
+    <th class='rightborderme' colspan=2>Chef</th>
     <th class='rightborderme'>Win/Loss</th>
     <th>Points</th>
   </tr></thead>
   <% @picks.each { |pick| %>
     <tr class=<%= "'" + pick.row_class(@user) + "'" %>>
-      <td><%= pick.number.to_s %></td>
-      <td><%= pick.user.link_to_page_with_full_name %></td>
-      <td><%= pick.chef.link_to_page_with_full_name %></td>
-      <td><%= pick.my_record_string %></td>
+      <td class='rightborderme'><%= pick.number.to_s %></td>
+      <td class='rightborderme'><%= pick.user.link_to_page_with_full_name %></td>
+      <td><%= pick.chef.mini_img %></td>
+      <td class='rightborderme'><%= pick.chef.link_to_page_with_full_name %></td>
+      <td class='rightborderme'><%= pick.my_record_string %></td>
       <td><%= pick.points.to_s %></td>
     </tr>
   <% } %>

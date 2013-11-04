@@ -16,10 +16,10 @@
         chef_class = elimination_week ? "red-row" : ""
     %>
       <tr class=<%= "'" + chef_class + "'" %>>
-        <td><%= draft_pick.round.to_s %></td>
+        <td class='rightborderme'><%= draft_pick.round.to_s %></td>
         <td><%= chef.small_img %></td>
-        <td><%= chef.link_to_page_with_full_name %></td>
-        <td><strong>
+        <td class='rightborderme'><%= chef.link_to_page_with_full_name %></td>
+        <td class='rightborderme'><strong>
           <%= @chef_id_to_points_map.has_key?(chef.id) ?
               @chef_id_to_points_map[chef.id].to_s : "0" %>
         </strong></td>
@@ -46,15 +46,17 @@
           pick_count += 1
           if pick_count.odd?
         %>
-          <td rowspan=2><%= pick.week.to_s %></td>
+          <td rowspan=2 class='rightborderme'><%= pick.week.to_s %></td>
         <% end %>
         
         <% if pick.chef %>
           <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.chef.mini_img %></td>
-          <td class=<%= "'" + pick.cell_class + "'" %>>
+          <td class=<%= "'" + pick.cell_class + " rightborderme'" %>>
             <%= pick.chef.link_to_page_with_first_name %>
           </td>
-          <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.my_record_string %></td>
+          <td class=<%= "'" + pick.cell_class + " rightborderme'" %>>
+            <%= pick.my_record_string %>
+          </td>
           <td class=<%= "'" + pick.cell_class + "'" %>><%= pick.points.to_s %></td>
         <% else %>
           <td colspan=2></td><td></td><td></td>

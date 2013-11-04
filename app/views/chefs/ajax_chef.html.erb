@@ -73,10 +73,10 @@
             pick_class << " bold-row" if pick.user_id == @user.id
         %>
           <tr class=<%= "'" + pick_class + "'" %>>
-            <td><%= pick.week.to_s %></td>
-            <td><%= pick.number.to_s %></td>
-            <td><%= pick.user.link_to_page_with_first_name %></td>
-            <td><%= pick.my_record_string %></td>
+            <td class='rightborderme'><%= pick.week.to_s %></td>
+            <td class='rightborderme'><%= pick.number.to_s %></td>
+            <td class='rightborderme'><%= pick.user.link_to_page_with_first_name %></td>
+            <td class='rightborderme'><%= pick.my_record_string %></td>
             <td><%= pick.points.to_s %></td>
           </tr>
         <% } %>
