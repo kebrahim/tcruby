@@ -43,11 +43,32 @@ class PicksController < ApplicationController
       @my_pick = @current_pick && @current_pick.user_id == @user.id
       if @my_pick
         # filter out eliminated chefs
-        eliminated_chef_ids = Chef.joins(:chefstats)
+        filtered_chef_ids = Chef.joins(:chefstats)
                                   .where("chefstats.stat_id = " +
                                       Stat.find_by_abbreviation(Stat::ELIMINATED_ABBR).id.to_s)
                                   .collect {|chef| chef.id }
-        @chefs = Chef.where("id not in (?)", eliminated_chef_ids)
+
+        # filter out chefs already selected this week for win & loss
+        filtered_chef_ids += Pick.where(week: @week.number)
+                                 .select("chef_id, count(chef_id)")
+                                 .group(:chef_id)
+                                 .collect { |h| h.chef_id if h.count.to_i > 1 }.compact
+
+        # if i've already made a pick, filter out chefs who have already been selected for the
+        # opposite result
+        my_week_picks = Pick.where({ week: @week.number, user_id: @user.id })
+                            .where("chef_id is not null")
+        @result_to_pick = nil
+        if my_week_picks.count == 1
+          my_week_pick = my_week_picks.first
+          @result_to_pick = my_week_pick.record.to_s == :win.to_s ? :loss.to_s : :win.to_s
+
+          filtered_chef_ids += Pick.where({ week: @week.number, record: @result_to_pick })
+                                   .select("chef_id")
+                                   .collect {|p| p.chef_id }
+        end
+
+        @chefs = Chef.where("id not in (?)", filtered_chef_ids)
                      .order(:first_name, :last_name)
       end
     end

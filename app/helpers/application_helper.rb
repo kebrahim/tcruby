@@ -117,8 +117,10 @@ module ApplicationHelper
   def record_selector
     record_chooser_html = "<select class='input-medium' name='record'>
                            <option value=0>-- Select Result --</option>"
-    # records
-    [:win, :loss].each { |record|
+
+    # records - if only one result can be picked, only show that result, otherwise, show both
+    records = @result_to_pick ? [Pick.record_type_from_string(@result_to_pick)] : [:win, :loss]
+    records.each { |record|
       record_chooser_html << "<option value=" + Pick::record_abbreviation(record) +  ">" + 
           Pick::record_string(record) + "</option>"
     }

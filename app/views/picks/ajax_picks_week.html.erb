@@ -23,11 +23,15 @@
         <td class='rightborderme'><%= pick.number.to_s %></td>
         <td class='rightborderme'><%= pick.user.link_to_page_with_full_name %></td>
         <% if @my_pick && pick.id == @current_pick.id %>
-          <td class='tdselect rightborderme' colspan=2><%= chef_selector(@chefs, nil, true, false) %></td>
+          <td class='tdselect rightborderme' colspan=2>
+            <%= chef_selector(@chefs, nil, true, false) %>
+          </td>
           <td class='tdselect rightborderme'><%= record_selector %></td>
         <% else %>
           <td><%= pick.chef ? pick.chef.small_img : "" %></td>
-          <td class='rightborderme'><%= pick.chef ? pick.chef.link_to_page_with_full_name : "" %></td>
+          <td class='rightborderme'>
+            <%= pick.chef ? pick.chef.link_to_page_with_full_name : "" %>
+          </td>
           <td class='rightborderme'><%= pick.my_record_string %></td>
         <% end %>
         <td><%= pick.points.to_s %></td>
