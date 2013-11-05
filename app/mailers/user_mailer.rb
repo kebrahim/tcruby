@@ -38,4 +38,10 @@ class UserMailer < ActionMailer::Base
     mail :to => User.where("role != 'demo'").pluck(:email),
          :subject => "Top Chef Rotiss - Week " + week.to_s + " Scoring Summary"
   end
+
+  # Sends a password reset email to the specified user
+  def password_reset(user)
+    @user = user
+    mail :to => user.email, :subject => "Top Chef Rotiss Password Reset"
+  end
 end

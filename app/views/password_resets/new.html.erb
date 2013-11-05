@@ -1,0 +1,21 @@
+
+<%= navigationBar(nil) %>
+
+<div class='row-fluid'>
+  <div class='span12 center'>
+	<h3>Reset Password</h3>
+    
+    <%= show_notice_as_alert(notice) %>
+
+	<%= form_tag password_resets_path, :method => :post do %>
+	  <div class="field">
+	    <%= label_tag :email %>
+	    <%= email_field_tag :email, params[:email], required: "" %>
+	  </div>
+	  <div class="actions">
+	    <%= submit_tag "Reset Password", class: "btn btn-primary" %>
+	    <a class='btn' href='/'>Cancel</a>
+	  </div>
+	<% end %>
+  </div>
+</div>

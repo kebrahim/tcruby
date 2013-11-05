@@ -1,4 +1,10 @@
 Tcruby::Application.routes.draw do
+  # password reset
+  get "/password_resets/new" => "password_resets#new", :as => "new_password_reset"
+  post "/password_resets" => "password_resets#create"
+  get "/password_resets/:id/edit" => "password_resets#edit", :as => "edit_password_reset"
+  put "/password_resets/:id" => "password_resets#update"
+
   # picks
   get "picks" => "picks#index"
   get "picks/week/:number" => "picks#picks_week"
