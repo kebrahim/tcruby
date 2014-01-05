@@ -74,15 +74,19 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :win)]
-          score_html << "<td class='leftborderme" + pick.cell_class + "'>" +
-                           pick.chef.link_to_page_with_first_name +
-                        "</td>
-                         <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
-
-          # update point totals
-          total_win_bonus_points += pick.points
-          weekly_points[week] += pick.points
-          total_points += pick.points
+          if pick
+            score_html << "<td class='leftborderme" + pick.cell_class + "'>" +
+                             pick.chef.link_to_page_with_first_name +
+                          "</td>
+                           <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
+            
+            # update point totals
+            total_win_bonus_points += pick.points
+            weekly_points[week] += pick.points
+            total_points += pick.points
+          else
+            score_html << "<td colspan=2 class='leftborderme'></td>"
+          end
         }
       end
       score_html << "  <td class='leftborderme bold-cell'>" + total_win_bonus_points.to_s + "</td>
@@ -94,15 +98,19 @@ module StatsHelper
         1.upto(@max_week) { |week|
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :loss)]
-          score_html << "<td class='leftborderme " + pick.cell_class + "'>" +
-                           pick.chef.link_to_page_with_first_name +
-                        "</td>
-                         <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
+          if pick
+            score_html << "<td class='leftborderme " + pick.cell_class + "'>" +
+                             pick.chef.link_to_page_with_first_name +
+                          "</td>
+                           <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
 
-          # update point totals
-          total_loss_bonus_points += pick.points
-          weekly_points[week] += pick.points
-          total_points += pick.points
+            # update point totals
+            total_loss_bonus_points += pick.points
+            weekly_points[week] += pick.points
+            total_points += pick.points
+          else
+            score_html << "<td colspan=2 class='leftborderme'></td>"
+          end
         }
       end
       score_html << "  <td class='leftborderme bold-cell'>" + total_loss_bonus_points.to_s + "</td>

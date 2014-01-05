@@ -10,6 +10,7 @@ class Pick < ActiveRecord::Base
   MISMATCH_PENALTY = -1
   MAX_BONUS = 5
   WEEKLY_STEP = 3
+  LAST_PICK_WEEK = 10
 
   def self.abbreviation_to_record(record_abbreviation)
     if record_abbreviation == "W"

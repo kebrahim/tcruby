@@ -80,8 +80,6 @@
   <% } %>
 </table>
 
-
-
 <h4>Week <%= @next_week.to_s %> Picks</h4>
 <table border style='text-align:center'>
   <thead><tr>
@@ -100,7 +98,9 @@
   <% } %>
 </table>
 
-<p>
-  It is now <a href='http://topchef.rotiss.com'>
-        <%= @next_week_picks.first.user.first_name %>'s turn</a> to pick!
-</p>
+<% if @next_week_picks && !@next_week_picks.empty? %>
+  <p>
+    It is now <a href='http://topchef.rotiss.com'>
+          <%= @next_week_picks.first.user.first_name %>'s turn</a> to pick!
+  </p>
+<% end %>

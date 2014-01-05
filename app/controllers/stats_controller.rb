@@ -182,22 +182,27 @@ class StatsController < ApplicationController
       next_week = week + 1
       Pick.transaction do
         begin
-          # if any picks exist for next week, destroy them
-          Pick.where(week: next_week).destroy_all
-
-          # create weekly picks for next week based on reverse order of standings
           users = User.includes(:chefs).where("role != 'demo'")
           chefstats = Chefstat.all
-          picks = Pick.includes(:chef)
 
+          if next_week <= Pick::LAST_PICK_WEEK
+            # if any picks exist for next week, destroy them
+            Pick.where(week: next_week).destroy_all
+          end
+          
+          picks = Pick.includes(:chef)        
           user_id_to_points_chefs_map =
               build_user_id_to_points_chefs_map(users, chefstats, Stat.all, picks)
-          pickcount = 0
-          user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.each { |user_points|
-            pickcount += 1
-            create_pick(next_week, user_points[0], pickcount)
-            create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
-          }
+          
+          if next_week <= Pick::LAST_PICK_WEEK
+            # create weekly picks for next week based on reverse order of standings
+            pickcount = 0
+            user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.each { |user_points|
+              pickcount += 1
+              create_pick(next_week, user_points[0], pickcount)
+              create_pick(next_week, user_points[0], (((2 * users.count) + 1) - pickcount))
+            }
+          end
 
           # send scoring summary email
           UserMailer.scoring_summary(
