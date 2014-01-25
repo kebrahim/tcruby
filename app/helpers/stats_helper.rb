@@ -5,7 +5,6 @@ module StatsHelper
     @user_id_to_points_chefs_map.sort_by { |k,v| v["points"] }.reverse.each { |user_points|
       user = @user_id_to_users_map[user_points[0]]
       score_html << "<h5>"
-      # TDOO replace with expand/collapse buttons
       score_html << "<button type='button'
                              class='btn btn-link collapse-btn'
                              data-toggle='collapse'
@@ -22,7 +21,7 @@ module StatsHelper
                          <th colspan=2>Chef</th>"
       if @max_week
         1.upto(@max_week) { |week|
-          score_html << "<th colspan=2 class='leftborderme'>
+          score_html << "<th colspan=2 class='leftborderme wk" + week.to_s + "'>
                            <a href='/scoreboard/week/" + week.to_s + "'>Week " + week.to_s + "</a>
                          </th>"
         }
@@ -49,9 +48,10 @@ module StatsHelper
                 stat_ids.collect { |stat_id|
                   @stat_id_to_stat_map[stat_id].abbreviation
                 }
-            score_html << "<td class='leftborderme " + stat_class(stat_names) + "'>" +
+            score_html << "<td class='leftborderme " + stat_class(stat_names) + 
+                                    " wk" + week.to_s + "'>" +
                              stat_names.join(",") + "</td>
-                           <td class='" + stat_class(stat_names) + "'>" +
+                           <td class='" + stat_class(stat_names) + " wk" + week.to_s + "'>" +
                              stat_total_points.to_s + "</td>"
 
           	chef_points += stat_total_points
@@ -75,21 +75,25 @@ module StatsHelper
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :win)]
           if pick
-            score_html << "<td class='leftborderme" + pick.cell_class + "'>" +
+            score_html << "<td class='leftborderme" + pick.cell_class + " wk" + week.to_s + "'>" +
                              pick.chef.link_to_page_with_first_name +
                           "</td>
-                           <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
+                           <td class='" + pick.cell_class + " wk" + week.to_s + "'>" +
+                             pick.points.to_s +
+                          "</td>"
             
             # update point totals
             total_win_bonus_points += pick.points
             weekly_points[week] += pick.points
             total_points += pick.points
           else
-            score_html << "<td colspan=2 class='leftborderme'></td>"
+            score_html << "<td colspan=2 class='leftborderme wk" + week.to_s + "'></td>"
           end
         }
       end
-      score_html << "  <td class='leftborderme bold-cell'>" + total_win_bonus_points.to_s + "</td>
+      score_html << "  <td class='leftborderme bold-cell'>" +
+                         total_win_bonus_points.to_s +
+                      "</td>
                      </tr>
                      <tr>
                        <td colspan=2>Losing Chef Bonus</td>"
@@ -99,28 +103,34 @@ module StatsHelper
           # show pick & points
           pick = @user_week_record_to_picks_map[Pick::user_week_record_id(user.id, week, :loss)]
           if pick
-            score_html << "<td class='leftborderme " + pick.cell_class + "'>" +
+            score_html << "<td class='leftborderme " + pick.cell_class + " wk" + week.to_s + "'>" +
                              pick.chef.link_to_page_with_first_name +
                           "</td>
-                           <td class='" + pick.cell_class + "'>" + pick.points.to_s + "</td>"
+                           <td class='" + pick.cell_class + " wk" + week.to_s + "'>" + 
+                             pick.points.to_s +
+                          "</td>"
 
             # update point totals
             total_loss_bonus_points += pick.points
             weekly_points[week] += pick.points
             total_points += pick.points
           else
-            score_html << "<td colspan=2 class='leftborderme'></td>"
+            score_html << "<td colspan=2 class='leftborderme wk" + week.to_s + "'></td>"
           end
         }
       end
-      score_html << "  <td class='leftborderme bold-cell'>" + total_loss_bonus_points.to_s + "</td>
+      score_html << "  <td class='leftborderme bold-cell'>" +
+                         total_loss_bonus_points.to_s +
+                      "</td>
                      </tr>"
 
       # totals
       score_html << "<tr class='topborderme bold-row'><td colspan=2>Total</td>"
       if @max_week
         1.upto(@max_week) { |week|
-          score_html << "<td colspan=2 class='leftborderme'>" + weekly_points[week].to_s + "</td>"
+          score_html << "<td colspan=2 class='leftborderme wk" + week.to_s + "'>" +
+                           weekly_points[week].to_s +
+                        "</td>"
         }
       end
       score_html << "    <td class='leftborderme'>" + total_points.to_s + "</td>

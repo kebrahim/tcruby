@@ -12,6 +12,9 @@
     <button id='legendBtn' type='button' class='btn btn-link'>
       (show legend)
     </button>
+    <button id='scrollBtn' type='button' class='btn btn-link'>
+      (show early weeks)
+    </button>
     <%= score_breakdown_tables %>
   </div>
 </div>
@@ -68,6 +71,52 @@ $('.collapse-btn').click(function(){
 
 $('#legendBtn').click(function(){
   $('#legendModal').modal('toggle');
+});
+
+// shows the week columns from start to end
+function showWeeks(week_start, week_end) {
+  for (var w = week_start; w <= week_end; w++) {
+    $('.wk'.concat(w)).show();
+  }
+}
+
+// hides the week columns from start to end
+function hideWeeks(week_start, week_end) {
+  for (var w = week_start; w <= week_end; w++) {
+    $('.wk'.concat(w)).hide();
+  }
+}
+
+// only show 8 weeks total
+var maxWeeks = 8;
+var totalColumns = $('table')[0].children[0].children[0].children.length;
+var totalWeeks = totalColumns - 2;
+if (totalWeeks > maxWeeks) {
+  hideWeeks(1, (totalWeeks - maxWeeks));
+}
+
+$('#scrollBtn').click(function(){
+  var showEarlyWeeks = this.innerHTML.trim() == "(show early weeks)";
+
+  // show/hide corresponding columns in table
+  if (showEarlyWeeks) {
+    if (totalWeeks > maxWeeks) {
+      showWeeks(1, maxWeeks);
+      hideWeeks((maxWeeks + 1), totalWeeks);
+    } else {
+      showWeeks(1, totalWeeks);
+    }
+  } else {
+    if (totalWeeks > 8) {
+      showWeeks((totalWeeks - (maxWeeks - 1)), totalWeeks);
+      hideWeeks(1, (totalWeeks - maxWeeks));
+    } else {
+      showWeeks(1, totalWeeks);
+    }
+  }
+
+  // change text in link to allow user to change back to other mode
+  this.innerHTML = showEarlyWeeks ? "(show late weeks)" : "(show early weeks)"
 });
 
 </script>
